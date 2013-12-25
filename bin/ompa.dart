@@ -14,7 +14,9 @@ main(){
     var collec = db.collection('note');
     var old = server.preProcessor;
     server.preProcessor = (HttpRequest request){
-      request.response.headers.add('Access-Control-Allow-Origin','http://127.0.0.1:3030');
+      request.response.headers
+        ..add('Access-Control-Allow-Origin','http://127.0.0.1:3030')
+        ..add('Access-Control-Allow-Methods', 'GET,PUT');
       old(request);
     };
     
@@ -41,8 +43,8 @@ main(){
           });
     });
     
-    server.onDelete('note/{name}', (request, params) {
-      request.response.write("Name ${params['name']}");
+    server.onOptions('note/{name}', (request, params) {
+      request.response.statusCode = 204;
     });
   });
 }
