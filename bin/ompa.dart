@@ -10,8 +10,13 @@ main(){
   var db = new Db('mongodb://ompa:BAw6eyEtEBUteDeq@ds063158.mongolab.com:63158/ompa');
   
   Future.wait([RestfulServer.bind(),db.open()]).then((stuff){
-    var server = stuff[0];
+    RestfulServer server = stuff[0];
     var collec = db.collection('note');
+    var old = server.preProcessor;
+    server.preProcessor = (HttpRequest request){
+      request.response.headers.add('Access-Control-Allow-Origin','http://127.0.0.1:3030');
+      old(request);
+    };
     
     server.onGet('note/{name}', (request, params) {
       var id = Uri.decodeComponent(params['name']);
