@@ -14,7 +14,15 @@ main(){
     var collec = db.collection('note');
     
     server.onGet('note/{name}', (request, params) {
-      request.response.write("Name ${params['name']}");
+      var id = Uri.decodeComponent(params['name']);
+      return collec.findOne({'_id': id})
+          .then((data){
+            request.response..statusCode = 200
+                ..write(data['text']);
+          }).catchError((e){
+            request.response..statusCode = 500
+                ..write(e);
+          });
     });
 
     server.onPut('note/{name}', (HttpRequest request, params, body) {
