@@ -1,14 +1,21 @@
 import 'dart:html';
 
 class Note{
-  final Element elem;
+  final DivElement elem = new DivElement();
   
-  String title = 'Temp title';
-  String text = 'Bla bla bla bla';
+  String title;
+  String _text = '';
   bool edit = false;
-  Note(this.elem){
+  Note(this.title){
+    elem.className = 'note';
     elem.onClick.listen(click);
-    render();
+    var id = Uri.encodeComponent(title);
+    HttpRequest.getString('http://127.0.0.1:8080/note/$id')
+    .then((String text) {
+      _text = text;
+      render();
+    })
+    .catchError(print);
   }
   
   click(MouseEvent e){
@@ -18,7 +25,7 @@ class Note{
     if(edit){
       if(e.target is ButtonElement){
         title = elem.querySelector('input').value;
-        text = elem.querySelector('textarea').value;
+        _text = elem.querySelector('textarea').value;
         edit = false;
         render();
       }
@@ -32,11 +39,11 @@ class Note{
     var s = new StringBuffer();
     if(edit){
       s.writeln('<input type="text" value="$title">');
-      s.writeln('<textarea>$text</textarea>');
+      s.writeln('<textarea>$_text</textarea>');
       s.writeln('<button>Save</button>');
     }else{
       s.writeln('<h1>$title</h1>');
-      s.writeln('<pre>$text</pre>');
+      s.writeln('<pre>$_text</pre>');
     }
     elem.innerHtml = s.toString();
   }
@@ -45,5 +52,5 @@ class Note{
 }
 
 void main() {
-  new Note(querySelector('#note'));
+  document.body.append(new Note('SuperNote').elem);
 }
