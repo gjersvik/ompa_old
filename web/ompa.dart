@@ -1,16 +1,49 @@
 import 'dart:html';
 
-void main() {
-  querySelector("#sample_text_id")
-    ..text = "Click me!"
-    ..onClick.listen(reverseText);
+class Note{
+  final Element elem;
+  
+  String title = 'Temp title';
+  String text = 'Bla bla bla bla';
+  bool edit = false;
+  Note(this.elem){
+    elem.onClick.listen(click);
+    render();
+  }
+  
+  click(MouseEvent e){
+    if(e.button != 0){
+      return;
+    }
+    if(edit){
+      if(e.target is ButtonElement){
+        title = elem.querySelector('input').value;
+        text = elem.querySelector('textarea').value;
+        edit = false;
+        render();
+      }
+    }else{
+      edit = true;
+      render();
+    }
+  }
+  
+  render(){
+    var s = new StringBuffer();
+    if(edit){
+      s.writeln('<input type="text" value="$title">');
+      s.writeln('<textarea>$text</textarea>');
+      s.writeln('<button>Save</button>');
+    }else{
+      s.writeln('<h1>$title</h1>');
+      s.writeln('<pre>$text</pre>');
+    }
+    elem.innerHtml = s.toString();
+  }
+  
+  
 }
 
-void reverseText(MouseEvent event) {
-  var text = querySelector("#sample_text_id").text;
-  var buffer = new StringBuffer();
-  for (int i = text.length - 1; i >= 0; i--) {
-    buffer.write(text[i]);
-  }
-  querySelector("#sample_text_id").text = buffer.toString();
+void main() {
+  new Note(querySelector('#note'));
 }
