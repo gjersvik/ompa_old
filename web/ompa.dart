@@ -3,18 +3,29 @@ import 'dart:html';
 class Note{
   final DivElement elem = new DivElement();
   
-  String title;
+  final String title;
   String _text = '';
-  bool edit = false;
+  
+  ButtonElement _save = new ButtonElement();
+  HeadingElement _title = new HeadingElement.h1();
+  TextAreaElement _textbox =  new TextAreaElement();
+  
   Note(this.title){
     elem.className = 'note';
-    elem.onClick.listen(click);
-    render();
+    elem.append(_save);
+    elem.append(_title);
+    elem.append(_textbox);
+    
+    _save.text = 'Save';
+    _save.onClick.listen((MouseEvent e) => e.button != 0 ? save(): null);
+    _save.style.display = 'none';
+    
+    _title.text = title;
     
     HttpRequest.getString(uri)
     .then((String text) {
       _text = text;
-      render();
+      _textbox.value = text;
     })
     .catchError(print);
   }
@@ -22,23 +33,6 @@ class Note{
   String get uri {
     var id = Uri.encodeComponent(title);
     return 'http://127.0.0.1:8080/note/$id';
-  }
-  
-  click(MouseEvent e){
-    if(e.target is ButtonElement && e.button != 0){
-      _text = elem.querySelector('textarea').value;
-      edit = false;
-      render();
-      save();
-    }
-  }
-  
-  render(){
-    var s = new StringBuffer();
-    s.writeln('<h1>$title</h1>');
-    s.writeln('<textarea>$_text</textarea>');
-    s.writeln('<button>Save</button>');
-    elem.innerHtml = s.toString();
   }
   
   save(){
