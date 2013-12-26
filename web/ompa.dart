@@ -17,7 +17,7 @@ class Note{
     elem.append(_save);
     
     _save.text = 'Save';
-    _save.onClick.listen((MouseEvent e) => e.button != 0 ? save(): null);
+    _save.onClick.listen((MouseEvent e) => e.button == 0 ? save(): null);
     
     _title.text = title;
     
@@ -39,10 +39,11 @@ class Note{
     if(text == _text){
       return;
     }
-    
+    _save.text = 'Saveing...';
     HttpRequest.request(uri, method: 'PUT', sendData: text)
       .then((_){
         _text = text;
+        _save.text = 'Save';
       })
       .catchError(print);
   }
