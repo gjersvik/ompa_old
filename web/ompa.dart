@@ -12,9 +12,9 @@ class Note{
   
   Note(this.title){
     elem.className = 'note';
-    elem.append(_save);
     elem.append(_title);
     elem.append(_textbox);
+    elem.append(_save);
     
     _save.text = 'Save';
     _save.onClick.listen((MouseEvent e) => e.button != 0 ? save(): null);

@@ -1,0 +1,50 @@
+html,body{
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background-color: #E3F6FF;
+}
+
+.note{
+  position: relative;
+  background-color: #E4FF8B;
+  width:200px;
+  height:200px;
+  margin: 5px;
+}
+
+.note *{
+  position: absolute;
+  width: 100%;
+}
+
+.note h1{
+  height: 20px;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  line-height: 20px; 
+}
+
+.note textarea{
+  background-color: transparent;
+  top: 20px;
+  bottom: 20px;
+  box-sizing: border-box;
+  resize: none;
+  border: none;
+}
+
+.note button{
+  bottom: 0px;
+  height: 20px;
+  background-color: #E88F0C;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.note button:hover{
+  background-color: #FF0000;
+}
