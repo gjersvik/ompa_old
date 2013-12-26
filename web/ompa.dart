@@ -9,6 +9,7 @@ class Note{
   Note(this.title){
     elem.className = 'note';
     elem.onClick.listen(click);
+    render();
     
     HttpRequest.getString(uri)
     .then((String text) {
@@ -24,33 +25,19 @@ class Note{
   }
   
   click(MouseEvent e){
-    if(e.button != 0){
-      return;
-    }
-    if(edit){
-      if(e.target is ButtonElement){
-        title = elem.querySelector('input').value;
-        _text = elem.querySelector('textarea').value;
-        edit = false;
-        render();
-        save();
-      }
-    }else{
-      edit = true;
+    if(e.target is ButtonElement && e.button != 0){
+      _text = elem.querySelector('textarea').value;
+      edit = false;
       render();
+      save();
     }
   }
   
   render(){
     var s = new StringBuffer();
-    if(edit){
-      s.writeln('<input type="text" value="$title">');
-      s.writeln('<textarea>$_text</textarea>');
-      s.writeln('<button>Save</button>');
-    }else{
-      s.writeln('<h1>$title</h1>');
-      s.writeln('<pre>$_text</pre>');
-    }
+    s.writeln('<h1>$title</h1>');
+    s.writeln('<textarea>$_text</textarea>');
+    s.writeln('<button>Save</button>');
     elem.innerHtml = s.toString();
   }
   
