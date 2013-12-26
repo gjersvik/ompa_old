@@ -20,8 +20,8 @@ main(){
       old(request);
     };
     
-    server.onGet('note/{name}', (request, params) {
-      var id = Uri.decodeComponent(params['name']);
+    server.onGet('note/{name}', (request, Map<String,String> params) {
+      var id = params['name'].replaceAll('_',' ');
       return collec.findOne({'_id': id})
           .then((data){
             request.response..statusCode = 200
@@ -33,7 +33,7 @@ main(){
     });
 
     server.onPut('note/{name}', (HttpRequest request, params, body) {
-      var id = Uri.decodeComponent(params['name']);
+      var id = params['name'].replaceAll('_',' ');
       return collec.update({'_id': id}, {'_id': id, 'text': body}, upsert: true)
           .then((_){
             request.response.statusCode = 201;

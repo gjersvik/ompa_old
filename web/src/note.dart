@@ -30,7 +30,7 @@ class Note{
   }
   
   String get uri {
-    var id = Uri.encodeComponent(title);
+    var id = title.replaceAll(' ', '_');
     return 'http://127.0.0.1:8080/note/$id';
   }
   
