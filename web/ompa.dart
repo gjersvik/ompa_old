@@ -4,8 +4,8 @@ class Note{
   final DivElement elem = new DivElement();
   
   final String title;
-  String _text = '';
   
+  String _text = '';
   ButtonElement _save = new ButtonElement();
   HeadingElement _title = new HeadingElement.h1();
   TextAreaElement _textbox =  new TextAreaElement();
@@ -18,7 +18,6 @@ class Note{
     
     _save.text = 'Save';
     _save.onClick.listen((MouseEvent e) => e.button != 0 ? save(): null);
-    _save.style.display = 'none';
     
     _title.text = title;
     
@@ -36,7 +35,15 @@ class Note{
   }
   
   save(){
-    HttpRequest.request(uri, method: 'PUT', sendData: _text)
+    var text = _textbox.value;
+    if(text == _text){
+      return;
+    }
+    
+    HttpRequest.request(uri, method: 'PUT', sendData: text)
+      .then((_){
+        _text = text;
+      })
       .catchError(print);
   }
 }
