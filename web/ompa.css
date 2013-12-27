@@ -6,12 +6,29 @@ html,body{
   background-color: #E3F6FF;
 }
 
+button{
+  height: 20px;
+  background-color: #E88F0C;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: #FF0000;
+}
+
+.newNote{
+  background-color: #A8BCFF;
+  text-align:center;
+}
+
+.newNote input{
+  margin-top: 35%;
+}
+
 .note{
-  position: relative;
   background-color: #E4FF8B;
-  width:200px;
-  height:200px;
-  margin: 5px;
 }
 
 .note *{
@@ -40,20 +57,16 @@ html,body{
   bottom: 0px;
   height: 20px;
   width: 50%;
-  background-color: #E88F0C;
-  border: none;
-  border-radius: 15px;
-  cursor: pointer;
 }
 
 .note button.delete{
   right:0;
 }
 
-.note button:hover{
-  background-color: #FF0000;
-}
-
 .notes div{
   float: left;
+  position: relative;
+  width:200px;
+  height:200px;
+  margin: 5px;
 }
