@@ -22,4 +22,10 @@ class Server{
         method: 'PUT', 
         sendData: body);
   }
+  
+  Future delete(String path){
+    path = path.replaceAll(' ', '_');
+    return HttpRequest.request('$server$path', 
+        method: 'DELETE');
+  }
 }

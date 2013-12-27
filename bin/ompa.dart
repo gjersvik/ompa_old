@@ -17,7 +17,7 @@ main(){
     server.preProcessor = (HttpRequest request){
       request.response.headers
         ..add('Access-Control-Allow-Origin','http://127.0.0.1:3030')
-        ..add('Access-Control-Allow-Methods', 'GET,PUT');
+        ..add('Access-Control-Allow-Methods', 'GET,PUT,DELETE');
       old(request);
     };
     
@@ -42,6 +42,10 @@ main(){
             request.response..statusCode = 500
                 ..write(e);
           });
+    });
+    
+    server.onDelete('note/{name}', (HttpRequest request, params) {
+      request.response.statusCode = 204;
     });
     
     server.onGet('note', (HttpRequest request, params){
