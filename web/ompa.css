@@ -48,3 +48,7 @@ html,body{
 .note button:hover{
   background-color: #FF0000;
 }
+
+.notes div{
+  float: left;
+}
