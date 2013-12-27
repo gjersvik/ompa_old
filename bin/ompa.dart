@@ -1,7 +1,8 @@
 library ompa;
 
-import 'dart:io';
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:dartrs/dartrs.dart';
 import 'package:mongo_dart/mongo_dart.dart';
@@ -43,7 +44,22 @@ main(){
           });
     });
     
-    server.onOptions('note/{name}', (request, params) {
+    server.onGet('note', (HttpRequest request, params){
+      return collec.find().stream.map((Map m){
+          return JSON.encode({
+            'name': m['_id'],
+            'text': m['text'],
+          });
+        }).join(',').then((data){
+          request.response..statusCode = 200
+              ..write('[$data]');
+        }).catchError((e){
+          request.response..statusCode = 500
+              ..write(e);
+        });
+    });
+    
+    server.onOptions('', (request, params) {
       request.response.statusCode = 204;
     });
   });
