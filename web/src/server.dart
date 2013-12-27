@@ -7,16 +7,15 @@ class Server{
     
   }
   
-  Future<Map> get(String path){
+  Future<String> get(String path){
     path = path.replaceAll(' ', '_');
-    return HttpRequest.getString('$server$path')
-        .then(JSON.decode);
+    return HttpRequest.getString('$server$path');
   }
   
-  Future put(String path, Map data){
+  Future put(String path, String body){
     path = path.replaceAll(' ', '_');
     return HttpRequest.request('$server$path', 
         method: 'PUT', 
-        sendData: JSON.encode(data));
+        sendData: body);
   }
 }

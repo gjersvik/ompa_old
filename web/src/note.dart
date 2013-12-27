@@ -5,12 +5,13 @@ class Note{
   
   final String title;
   
+  final Server _server;
   String _text = '';
   ButtonElement _save = new ButtonElement();
   HeadingElement _title = new HeadingElement.h1();
   TextAreaElement _textbox =  new TextAreaElement();
   
-  Note(this.title){
+  Note(this.title,this._server){
     elem.className = 'note';
     elem.append(_title);
     elem.append(_textbox);
@@ -21,17 +22,12 @@ class Note{
     
     _title.text = title;
     
-    HttpRequest.getString(uri)
+    _server.get('note/$title')
     .then((String text) {
       _text = text;
       _textbox.value = text;
     })
     .catchError(print);
-  }
-  
-  String get uri {
-    var id = title.replaceAll(' ', '_');
-    return 'http://127.0.0.1:8080/note/$id';
   }
   
   save(){
@@ -40,7 +36,7 @@ class Note{
       return;
     }
     _save.text = 'Saveing...';
-    HttpRequest.request(uri, method: 'PUT', sendData: text)
+    _server.put('note/$title', text)
       .then((_){
         _text = text;
         _save.text = 'Save';
