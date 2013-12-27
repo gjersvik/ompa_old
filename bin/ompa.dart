@@ -45,7 +45,14 @@ main(){
     });
     
     server.onDelete('note/{name}', (HttpRequest request, params) {
-      request.response.statusCode = 204;
+      var id = params['name'].replaceAll('_',' ');
+      return collec.remove({'_id': id})
+          .then((_){
+            request.response.statusCode = 204;
+          }).catchError((e){
+            request.response..statusCode = 500
+                ..write(e);
+          });
     });
     
     server.onGet('note', (HttpRequest request, params){
