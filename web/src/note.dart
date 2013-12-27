@@ -8,6 +8,7 @@ class Note{
   final Server _server;
   String _text = '';
   ButtonElement _save = new ButtonElement();
+  ButtonElement _delete = new ButtonElement();
   HeadingElement _title = new HeadingElement.h1();
   TextAreaElement _textbox =  new TextAreaElement();
   
@@ -36,8 +37,15 @@ class Note{
       .then((_){
         _text = text;
         _save.text = 'Save';
-      })
-      .catchError(print);
+      });
+  }
+  
+  delete(){
+    _delete.text = 'Deleting';
+    _server.delete('note/$title')
+      .then((_){
+        elem.remove();
+      });
   }
   
   _init(){
@@ -45,9 +53,15 @@ class Note{
     elem.append(_title);
     elem.append(_textbox);
     elem.append(_save);
+    elem.append(_delete);
     
     _save.text = 'Save';
+    _save.className = 'save';
     _save.onClick.listen((MouseEvent e) => e.button == 0 ? save(): null);
+    
+    _delete.text = 'Delete';
+    _delete.className = 'delete';
+    _delete.onClick.listen((MouseEvent e) => e.button == 0 ? delete(): null);
     
     _title.text = title;
   }

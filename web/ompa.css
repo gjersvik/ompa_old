@@ -39,10 +39,15 @@ html,body{
 .note button{
   bottom: 0px;
   height: 20px;
+  width: 50%;
   background-color: #E88F0C;
   border: none;
   border-radius: 15px;
   cursor: pointer;
+}
+
+.note button.delete{
+  right:0;
 }
 
 .note button:hover{
