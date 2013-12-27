@@ -7,8 +7,8 @@ import 'dart:io';
 import 'package:dartrs/dartrs.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
-main(){
-  var db = new Db('mongodb://ompa:BAw6eyEtEBUteDeq@ds063158.mongolab.com:63158/ompa');
+main(List<String> args){
+  var db = new Db(args[0]);
   
   Future.wait([RestfulServer.bind(),db.open()]).then((stuff){
     RestfulServer server = stuff[0];
