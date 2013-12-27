@@ -10,7 +10,7 @@ class Notes{
     
     _server.getJson('note').then((List notes){
       notes.forEach((Map note){
-        add(new Note(note['name'],_server));
+        add(new Note(note['name'],note['text'],_server));
       });
     });
   }
