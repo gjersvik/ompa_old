@@ -17,7 +17,9 @@ main(List<String> args){
     server.preProcessor = (HttpRequest request){
       request.response.headers
         ..add('Access-Control-Allow-Origin','http://127.0.0.1:3030')
-        ..add('Access-Control-Allow-Methods', 'GET,PUT,DELETE');
+        ..add('Access-Control-Allow-Methods', 'GET,PUT,DELETE')
+        ..add('Access-Control-Allow-Credentials', 'true')
+        ..add('Access-Control-Allow-Headers', 'Authorization');
       old(request);
     };
     
