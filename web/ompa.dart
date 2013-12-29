@@ -4,11 +4,16 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:crypto/crypto.dart';
+
+part 'src/auth.dart';
 part 'src/note.dart';
 part 'src/notes.dart';
 part 'src/server.dart';
 
 void main() {
+  var auth = new Auth(document.body);
+  
   var server = new Server('http://127.0.0.1:8080/');
   
   var notes = new Notes(server);
