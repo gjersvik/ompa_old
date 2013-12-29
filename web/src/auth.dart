@@ -1,27 +1,23 @@
 part of ompa_html;
 
-class Auth{
-  final DivElement elem = new DivElement();
+Future<List<int>> auth(Element parent){
+  var elem = new DivElement();
+  var pass = new InputElement(type: 'password');
+  var start = new ButtonElement();
+  var key = new Completer();
   
-  final InputElement _pass = new InputElement(type: 'password');
-  final ButtonElement _start = new ButtonElement();
+  elem.className = 'login';
+  elem.append(pass);
+  elem.append(start);
   
-  Auth(Element parent){
-    elem.className = 'login';
-    elem.append(_pass);
-    elem.append(_start);
-    
-    _start.text = 'Start';
-    _start.onClick.listen((MouseEvent e) => e.button == 0 ? _login(): null);
-    
-    parent.append(elem);
-  }
+  start.text = 'Start';
+  parent.append(elem);
   
-  _login(){
-    var key = _pass.value;
+  return start.onClick.firstWhere((e) => e.button == 0).then((_){
+    var key = pass.value;
     var hash = new SHA256();
     hash.add(key.codeUnits);
-    print(hash.close());
-    
-  }
+    elem.remove();
+    return hash.close();
+  });
 }
