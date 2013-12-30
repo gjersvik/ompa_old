@@ -8,26 +8,28 @@ import 'package:dartrs/dartrs.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 part 'src/note.dart';
+part 'src/rest.dart';
+
+Future<Db> getDb(String uri){
+  var db = new Db(uri);
+  return db.open().then((_) => db);
+}
+
+Future<Map> getConfig(Db db) => db.collection('config').findOne();
 
 main(List<String> args){
-  var db = new Db(args[0]);
-  
-  Future.wait([RestfulServer.bind(),db.open()]).then((stuff){
-    RestfulServer server = stuff[0];
-    var old = server.preProcessor;
-    server.preProcessor = (HttpRequest request){
-      request.response.headers
-        ..add('Access-Control-Allow-Origin','http://127.0.0.1:3030')
-        ..add('Access-Control-Allow-Methods', 'GET,PUT,DELETE')
-        ..add('Access-Control-Allow-Credentials', 'true')
-        ..add('Access-Control-Allow-Headers', 'Authorization');
-      old(request);
-    };
-    
-    server.onOptions('', (request, params) {
-      request.response.statusCode = 204;
+  Db db = null;
+  Map conf = {};
+  Rest rest = null;
+  getDb(args[0])
+    .then((Db d)=> db = d)
+    .then(getConfig)
+    .then((Map c){
+      conf = c;
+      rest = new Rest(conf);
+      return rest.ready;
+    })
+    .then((_){
+      var note = new Note(rest.server , db.collection('note'));
     });
-    
-    var note = new Note(server , db.collection('note'));
-  });
 }
