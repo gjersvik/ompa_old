@@ -1,6 +1,12 @@
 part of ompa_html;
 
 Future<List<int>> auth(Element parent){
+  if(window.sessionStorage.containsKey('passhash')){
+    var passhash = window.sessionStorage['passhash'];
+    passhash = CryptoUtils.base64StringToBytes(passhash);
+    return new Future.value(passhash);
+  }
+  
   var salt = '5Yc8GDdmKxlYpLnzcGBKpxZ0YU1rottDYGsWbDJrTK4WBsp2Hzd1sOSjAOLPdBfc';
   var elem = new DivElement();
   var pass = new InputElement(type: 'password');
@@ -19,6 +25,9 @@ Future<List<int>> auth(Element parent){
     var hash = new SHA256();
     hash.add(key.codeUnits);
     elem.remove();
-    return hash.close();
+    
+    var passhash = hash.close();
+    window.sessionStorage['passhash'] = CryptoUtils.bytesToBase64(passhash);
+    return passhash;
   });
 }
