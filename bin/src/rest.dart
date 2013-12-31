@@ -2,8 +2,8 @@ part of ompa;
 
 class Rest{
   
-  
-  Rest(Map config){
+  final Map _config;
+  Rest(this._config){
     ready = RestfulServer.bind().then(start);
   }
   
@@ -12,7 +12,7 @@ class Rest{
   
   core( HttpRequest req){
     req.response.headers
-      ..add('Access-Control-Allow-Origin','http://127.0.0.1:3030')
+      ..add('Access-Control-Allow-Origin',_config['origin'])
       ..add('Access-Control-Allow-Methods', 'GET,PUT,DELETE')
       ..add('Access-Control-Allow-Credentials', 'true')
       ..add('Access-Control-Allow-Headers', 'Authorization');

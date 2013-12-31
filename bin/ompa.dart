@@ -16,7 +16,13 @@ Future<Db> getDb(String uri){
   return db.open().then((_) => db);
 }
 
-Future<Map> getConfig(Db db) => db.collection('config').findOne();
+Future<Map> getConfig(Db db){
+  if(Platform.isLinux){
+    return db.collection('config').findOne({'_id':'pro'});
+  }else{
+    return db.collection('config').findOne({'_id':'dev'});
+  }
+}
 
 main(List<String> args){
   Db db = null;
