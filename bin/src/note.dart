@@ -6,42 +6,31 @@ class Note{
   final DbCollection _db;
   final List<int> _key;
   Note(this._rest, this._db, this._key){
-    _rest.onGet('note/{name}', (request, Map<String,String> params) {
+    _rest.onGet('note/{name}', handler((request, params) {
       var id = params['name'].replaceAll('_',' ');
-      return _db.findOne({'_id': id})
-          .then((data){
-            request.response..statusCode = 200
-                ..write(data['text']);
-          }).catchError((e){
-            request.response..statusCode = 500
-                ..write(e);
-          });
-    });
+      return _db.findOne({'_id': id}).then((data){
+        request.response..statusCode = 200
+            ..write(data['text']);
+      });
+    }));
 
-    _rest.onPut('note/{name}', (HttpRequest request, params, body) {
+    _rest.onPut('note/{name}', handlerBody((HttpRequest request, params, body) {
       var id = params['name'].replaceAll('_',' ');
       return _db.update({'_id': id}, {'_id': id, 'text': body}, upsert: true)
           .then((_){
             request.response.statusCode = 201;
-          }).catchError((e){
-            request.response..statusCode = 500
-                ..write(e);
           });
-    });
+    }));
     
-    _rest.onDelete('note/{name}', (HttpRequest request, params) {
+    _rest.onDelete('note/{name}', handler((HttpRequest request, params) {
       var id = params['name'].replaceAll('_',' ');
       return _db.remove({'_id': id})
           .then((_){
             request.response.statusCode = 204;
-          }).catchError((e){
-            request.response..statusCode = 500
-                ..write(e);
           });
-    });
+    }));
     
-    _rest.onGet('note', (HttpRequest request, params){
-      auth(request);
+    _rest.onGet('note', handler((HttpRequest request, params){
       return _db.find().stream.map((Map m){
           return JSON.encode({
             'name': m['_id'],
@@ -50,17 +39,36 @@ class Note{
         }).join(',').then((data){
           request.response..statusCode = 200
               ..write('[$data]');
-        }).catchError((e){
-          request.response..statusCode = 500
-              ..write(e);
         });
-    });
+    }));
+  }
+  
+  Function handler( Future handler(HttpRequest, Map)){
+    return (HttpRequest request, Map params){
+      if(auth(request) == false){
+        return request.response..statusCode = 403;
+      }
+      return handler(request,params).catchError((e){
+        request.response..statusCode = 500
+            ..write(e);
+      });
+    };
+  }
+  
+  Function handlerBody( Future handler(HttpRequest, Map, body)){
+    return (HttpRequest request, Map params, body){
+      if(auth(request, body) == false){
+        return request.response..statusCode = 403;
+      }
+      return handler(request,params,body).catchError((e){
+        request.response..statusCode = 500
+            ..write(e);
+      });
+    };
   }
   
   auth(HttpRequest req, [body]){
     var hmac = new HMAC(new SHA256(),_key);
-    print(req.uri.path);
-    print(req.method);
     hmac.add(req.uri.path.codeUnits);
     hmac.add(req.method.codeUnits);
     if(body != null){
@@ -68,6 +76,6 @@ class Note{
     }
     var digest = CryptoUtils.base64StringToBytes(
         req.headers['Authorization'].first.split('"')[1]);
-    print(hmac.verify(digest));
+    return hmac.verify(digest);
   }
 }
