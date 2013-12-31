@@ -15,7 +15,9 @@ class Server{
   Future<String> _send(String path, String method, [String body]){
     path = path.replaceAll(' ', '_');
     var hmac = new HMAC(new SHA256(),_key);
-    hmac.add(path.codeUnits);
+    print('/$path');
+    print(method);
+    hmac.add('/$path'.codeUnits);
     hmac.add(method.codeUnits);
     if(body != null){
       hmac.add(body.codeUnits);
@@ -29,6 +31,5 @@ class Server{
         },
         sendData: body)
         .then((http) => http.response.toString());
-    
   }
 }

@@ -10,10 +10,6 @@ class Rest{
   RestfulServer server;
   Future<RestfulServer> ready;
   
-  auth( HttpRequest req ){
-    
-  }
-  
   core( HttpRequest req){
     req.response.headers
       ..add('Access-Control-Allow-Origin','http://127.0.0.1:3030')
@@ -26,7 +22,6 @@ class Rest{
     server = _rest;
     var old = server.preProcessor;
     server.preProcessor = (HttpRequest res){
-      auth( res );
       core( res );
       return old( res );
     };

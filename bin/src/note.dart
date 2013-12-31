@@ -4,7 +4,8 @@ class Note{
   
   final RestfulServer _rest;
   final DbCollection _db;
-  Note(this._rest, this._db){
+  final List<int> _key;
+  Note(this._rest, this._db, this._key){
     _rest.onGet('note/{name}', (request, Map<String,String> params) {
       var id = params['name'].replaceAll('_',' ');
       return _db.findOne({'_id': id})
@@ -40,6 +41,7 @@ class Note{
     });
     
     _rest.onGet('note', (HttpRequest request, params){
+      auth(request);
       return _db.find().stream.map((Map m){
           return JSON.encode({
             'name': m['_id'],
@@ -53,5 +55,19 @@ class Note{
               ..write(e);
         });
     });
+  }
+  
+  auth(HttpRequest req, [body]){
+    var hmac = new HMAC(new SHA256(),_key);
+    print(req.uri.path);
+    print(req.method);
+    hmac.add(req.uri.path.codeUnits);
+    hmac.add(req.method.codeUnits);
+    if(body != null){
+      hmac.add(body.codeUnits);
+    }
+    var digest = CryptoUtils.base64StringToBytes(
+        req.headers['Authorization'].first.split('"')[1]);
+    print(hmac.verify(digest));
   }
 }
