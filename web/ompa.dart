@@ -13,7 +13,12 @@ part 'src/server.dart';
 
 void main() {
   auth(document.body).then((key){
-    var server = new Server('http://127.0.0.1:8080/',key);
+    var server;
+    if(window.location.host == '127.0.0.1:3030'){
+      server = new Server('http://127.0.0.1:8080/',key);
+    }else{
+      server = new Server('http://api.ompa.olem.org/',key);
+    }
     
     var notes = new Notes(server);
     document.body.append(notes.elem);
