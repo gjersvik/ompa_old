@@ -4,7 +4,7 @@ class Rest{
   
   final Map _config;
   Rest(this._config){
-    ready = RestfulServer.bind().then(start);
+    ready = RestfulServer.bind(host: "0.0.0.0").then(start);
   }
   
   RestfulServer server;
