@@ -17,7 +17,7 @@ void main() {
     if(window.location.host == '127.0.0.1:3030'){
       server = new Server('http://127.0.0.1:8080/',key);
     }else{
-      server = new Server('http://api.ompa.olem.org/',key);
+      server = new Server('http://api.ompa.olem.org:8080/',key);
     }
     
     var notes = new Notes(server);
