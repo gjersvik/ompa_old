@@ -1,8 +1,6 @@
 part of ompa_html;
 
-class Note{
-  final DivElement elem = new DivElement();
-  
+class Note extends Box{
   final String title;
   
   final Server _server;

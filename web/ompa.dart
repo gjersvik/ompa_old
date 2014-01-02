@@ -7,6 +7,7 @@ import 'dart:html';
 import 'package:crypto/crypto.dart';
 
 part 'src/auth.dart';
+part 'src/box.dart';
 part 'src/note.dart';
 part 'src/notes.dart';
 part 'src/server.dart';
