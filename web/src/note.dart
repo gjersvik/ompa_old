@@ -1,6 +1,6 @@
 part of ompa_html;
 
-class Note extends Box{
+class Note extends Panel{
   final String title;
   
   final Server _server;

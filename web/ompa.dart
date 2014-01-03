@@ -7,8 +7,8 @@ import 'dart:html';
 import 'package:crypto/crypto.dart';
 
 part 'src/auth.dart';
-part 'src/box.dart';
-part 'src/boxes.dart';
+part 'src/panel.dart';
+part 'src/panels.dart';
 part 'src/note.dart';
 part 'src/notes.dart';
 part 'src/server.dart';
@@ -22,8 +22,8 @@ void main() {
       server = new Server('http://api.ompa.olem.org:8080/',key);
     }
     
-    var boxes = new Boxes();
-    var notes = new Notes(server, boxes);
-    document.body.append(boxes.elem);
+    var panels = new Panels();
+    var notes = new Notes(server, panels);
+    document.body.append(panels.elem);
   });
 }
