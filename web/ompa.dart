@@ -22,7 +22,8 @@ void main() {
       server = new Server('http://api.ompa.olem.org:8080/',key);
     }
     
-    var notes = new Notes(server);
-    document.body.append(notes.elem);
+    var boxes = new Boxes();
+    var notes = new Notes(server, boxes);
+    document.body.append(boxes.elem);
   });
 }

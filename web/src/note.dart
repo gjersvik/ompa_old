@@ -42,16 +42,16 @@ class Note extends Box{
     _delete.text = 'Deleting';
     _server.delete('note/$title')
       .then((_){
-        elem.remove();
+        content.remove();
       });
   }
   
   _init(){
-    elem.classes.add('note');
-    elem.append(_title);
-    elem.append(_textbox);
-    elem.append(_save);
-    elem.append(_delete);
+    content.classes.add('note');
+    content.append(_title);
+    content.append(_textbox);
+    content.append(_save);
+    content.append(_delete);
     
     _save.text = 'Save';
     _save.className = 'save';

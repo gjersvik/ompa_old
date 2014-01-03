@@ -1,9 +1,12 @@
 part of ompa_html;
 
 class Box {
-  final DivElement elem = new DivElement();
+  final DivElement box = new DivElement();
+  final DivElement content = new DivElement();
   
   Box(){
-    elem.classes.add('box');
+    box.classes.add('box');
+    content.classes.add('content');
+    box.append(content);
   }
 }

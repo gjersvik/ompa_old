@@ -8,10 +8,10 @@ class Boxes{
   }
   
   add(Box box){
-    
+    elem.append(box.box);
   }
   
   remove(Box box){
-    
+    box.box.remove();
   }
 }
