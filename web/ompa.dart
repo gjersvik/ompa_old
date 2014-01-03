@@ -10,6 +10,7 @@ part 'src/auth.dart';
 part 'src/auth_panel.dart';
 part 'src/panel.dart';
 part 'src/panels.dart';
+part 'src/new_note_panel.dart';
 part 'src/note.dart';
 part 'src/note_controller.dart';
 part 'src/server.dart';
