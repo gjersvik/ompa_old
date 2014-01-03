@@ -37,6 +37,7 @@ button:hover{
   height: 20px;
   font-size: 18px;
   line-height: 20px;
+  font-weight: bold;
 }
 
 .content .center{
@@ -67,29 +68,15 @@ button:hover{
   background-color: #E4FF8B;
 }
 
-.note *{
-  position: absolute;
-  width: 100%;
-}
-
-.note h1{
-  height: 20px;
-  margin: 0;
-  padding: 0;
-  font-size: 18px;
-  line-height: 20px; 
-}
-
 .note textarea{
   background-color: transparent;
-  top: 20px;
-  bottom: 20px;
   box-sizing: border-box;
   resize: none;
   border: none;
 }
 
 .note button{
+  position: absolute;
   bottom: 0px;
   height: 20px;
   width: 50%;

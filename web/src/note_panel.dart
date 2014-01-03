@@ -16,9 +16,12 @@ class NotePanel extends Panel{
     
     content.classes.add('note');
     
-    var _title = new HeadingElement.h1();
+    var _title = new DivElement();
+    _title.className = 'top';
     _title.text = title;
     content.append(_title);
+    
+    _textbox.className = 'center';
     content.append(_textbox);
     
     _save.text = 'Save';
