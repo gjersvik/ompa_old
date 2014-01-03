@@ -18,7 +18,18 @@ class SuccessPanel extends Panel{
     header.append(date);
     header.append(next);
     
+    
+    var textbox = new InputElement(type: 'text');
+    var add = new ButtonElement();
+    add.text = 'Add';
+    
+    var fotter = new DivElement();
+    fotter.className = 'bottom';
+    fotter.append(textbox);
+    fotter.append(add);
+    
     content.classes.add('success');
     content.append(header);
+    content.append(fotter);
   }
 }
