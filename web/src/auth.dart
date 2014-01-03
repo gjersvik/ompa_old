@@ -1,6 +1,6 @@
 part of ompa_html;
 
-Future<List<int>> auth(Element parent){
+Future<List<int>> auth(Panels panels){
   if(window.sessionStorage.containsKey('passhash')){
     var passhash = window.sessionStorage['passhash'];
     passhash = CryptoUtils.base64StringToBytes(passhash);
@@ -8,23 +8,14 @@ Future<List<int>> auth(Element parent){
   }
   
   var salt = '5Yc8GDdmKxlYpLnzcGBKpxZ0YU1rottDYGsWbDJrTK4WBsp2Hzd1sOSjAOLPdBfc';
-  var elem = new DivElement();
-  var pass = new InputElement(type: 'password');
-  var start = new ButtonElement();
-  var key = new Completer();
+  var authpanel = new AuthPanel();
+  panels.add(authpanel);
   
-  elem.className = 'login';
-  elem.append(pass);
-  elem.append(start);
-  
-  start.text = 'Start';
-  parent.append(elem);
-  
-  return start.onClick.firstWhere((e) => e.button == 0).then((_){
-    var key = pass.value + salt;
+  return authpanel.onPassword.first.then((pass){
+    var key = pass + salt;
     var hash = new SHA256();
     hash.add(key.codeUnits);
-    elem.remove();
+    panels.remove(authpanel);
     
     var passhash = hash.close();
     window.sessionStorage['passhash'] = CryptoUtils.bytesToBase64(passhash);

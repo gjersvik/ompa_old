@@ -4,7 +4,7 @@ class Panels{
   final elem = new DivElement();
   
   Panels(){
-    elem.className = 'boxes';
+    elem.className = 'panels';
   }
   
   add(Panel panel){
