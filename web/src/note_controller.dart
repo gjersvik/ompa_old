@@ -1,6 +1,6 @@
 part of ompa_html;
 
-class Notes{
+class NoteController{
   final Server _server;
   final Panels _panels;
   
@@ -9,7 +9,7 @@ class Notes{
   final TextInputElement _textbox = new TextInputElement();
   final ButtonElement _create = new ButtonElement();
   
-  Notes(this._server, this._panels){
+  NoteController(this._server, this._panels){
     _create.text = 'Create new note';
     _create.onClick.listen((MouseEvent e){
       if(e.button != 0 || _textbox.value == ''){

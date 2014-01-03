@@ -11,7 +11,7 @@ part 'src/auth_panel.dart';
 part 'src/panel.dart';
 part 'src/panels.dart';
 part 'src/note.dart';
-part 'src/notes.dart';
+part 'src/note_controller.dart';
 part 'src/server.dart';
 
 void main() {
@@ -25,6 +25,6 @@ void main() {
       server = new Server('http://api.ompa.olem.org:8080/',key);
     }
     
-    var notes = new Notes(server, panels);
+    var note = new NoteController(server, panels);
   });
 }
