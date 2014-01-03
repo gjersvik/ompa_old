@@ -38,6 +38,7 @@ button:hover{
   font-size: 18px;
   line-height: 20px;
   font-weight: bold;
+  text-align:center;
 }
 
 .content .center{
@@ -90,4 +91,14 @@ button:hover{
   background-color: #4CAD73;
 }
 
-.success {}
+.success .prev{
+  position: absolute;
+  top:0;
+  left:0;
+}
+
+.success .next{
+  position: absolute;
+  top:0;
+  right:0;
+}
