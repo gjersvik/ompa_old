@@ -14,6 +14,9 @@ part 'src/new_note_panel.dart';
 part 'src/note_panel.dart';
 part 'src/note_controller.dart';
 part 'src/server.dart';
+part 'src/success_controller.dart';
+part 'src/success_panel.dart';
+
 
 void main() {
   Panels panels = new Panels();
@@ -25,7 +28,7 @@ void main() {
     }else{
       server = new Server('http://api.ompa.olem.org:8080/',key);
     }
-    
+    var success = new SuccessController(server,panels);
     var note = new NoteController(server, panels);
   });
 }
