@@ -18,6 +18,14 @@ button:hover{
   background-color: #FF0000;
 }
 
+.box{
+  float: left;
+  position: relative;
+  width:200px;
+  height:200px;
+  margin: 5px;
+}
+
 .newNote{
   background-color: #A8BCFF;
   text-align:center;
@@ -61,12 +69,4 @@ button:hover{
 
 .note button.delete{
   right:0;
-}
-
-.notes div{
-  float: left;
-  position: relative;
-  width:200px;
-  height:200px;
-  margin: 5px;
 }

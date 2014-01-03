@@ -10,19 +10,19 @@ class Note extends Box{
   HeadingElement _title = new HeadingElement.h1();
   TextAreaElement _textbox =  new TextAreaElement();
   
-  Note(this.title, this._text,this._server){
+  Note(this.title, this._text,this._server): super(){
     _init();
     _textbox.value = _text;
   }
   
-  Note.load(this.title,this._server){
+  Note.load(this.title,this._server): super(){
     _init();
     _server.get('note/$title')
       .then((String text) {
         _text = text;
         _textbox.value = text;
       })
-        .catchError(print);
+      .catchError(print);
   }
   
   save(){
@@ -47,7 +47,7 @@ class Note extends Box{
   }
   
   _init(){
-    elem.className = 'note';
+    elem.classes.add('note');
     elem.append(_title);
     elem.append(_textbox);
     elem.append(_save);
