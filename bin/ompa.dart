@@ -11,6 +11,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 part 'src/auth.dart';
 part 'src/note.dart';
 part 'src/rest.dart';
+part 'src/success.dart';
 
 Future<Db> getDb(String uri){
   var db = new Db(uri);
