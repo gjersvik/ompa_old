@@ -8,4 +8,8 @@ class SuccessController{
     _panels.add(new SuccessPanel());
   }
   
+  
+  add(String desc){
+    _server.putJson('success/add',{'desc':desc});
+  }
 }
