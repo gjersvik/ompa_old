@@ -18,7 +18,7 @@ class SuccessController{
   add(String desc){
     var success = new Success();
     success.desc = desc;
-    _server.putJson('success/add',success);
+    _server.putJson('success/add',success).then((_) => getDay(date));
   }
   
   next([ _ ]){

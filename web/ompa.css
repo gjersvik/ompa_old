@@ -94,6 +94,10 @@ button:hover{
   background-color: #4CAD73;
 }
 
+.success .center{
+  overflow: auto;
+}
+
 .success .prev{
   position: absolute;
   top:0;

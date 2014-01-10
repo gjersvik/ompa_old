@@ -30,6 +30,7 @@ class SuccessPanel extends Panel{
     header.append(next);
     
     success = new DivElement();
+    success.className = 'center';
     
     var textbox = new InputElement(type: 'text');
     var add = new ButtonElement();
@@ -66,6 +67,5 @@ class SuccessPanel extends Panel{
     });
     
     success.innerHtml = sb.toString();
-    print(data);
   }
 }
