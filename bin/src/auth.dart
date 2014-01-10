@@ -14,6 +14,7 @@ class Auth{
       return handler(request,params).catchError((e){
         request.response..statusCode = 500
             ..write(e);
+        print(e);
       });
     };
   }
@@ -26,6 +27,7 @@ class Auth{
       return handler(request,params,body).catchError((e){
         request.response..statusCode = 500
             ..write(e);
+        print(e);
       });
     };
   }

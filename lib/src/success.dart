@@ -16,6 +16,13 @@ class Success extends Model{
     return success;
   }
   
+  factory Success.formDb(Map data){
+    var success = new Success();
+    success.time = data['_id'];
+    success.desc = data['desc'];
+    return success;
+  }
+  
   Map toJson(){
     return {
       'time': time.toUtc().toString(),
@@ -27,7 +34,7 @@ class Success extends Model{
     return JSON.encode(this);
   }
   
-  Map toDB(){
+  Map toDb(){
     return {
       '_id': time.toUtc(),
       'desc': desc
