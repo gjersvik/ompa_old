@@ -7,11 +7,12 @@ import 'dart:io';
 import 'package:crypto/crypto.dart';
 import 'package:dartrs/dartrs.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+import 'package:ompa/ompa.dart';
 
 part 'src/auth.dart';
 part 'src/note.dart';
 part 'src/rest.dart';
-part 'src/success.dart';
+part 'src/success_server.dart';
 
 Future<Db> getDb(String uri){
   var db = new Db(uri);
