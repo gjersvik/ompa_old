@@ -8,7 +8,7 @@ class SuccessServer{
   SuccessServer(this._rest, this._db, this._auth){
     _rest.onPut('success/add', _auth.handlerBody((HttpRequest request, params, body) {
       return save(new Success.formJson(body)).then((_){
-        request.response.statusCode = 200;
+        request.response.statusCode = 204;
       });
     }));
   }

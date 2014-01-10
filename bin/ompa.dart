@@ -43,5 +43,6 @@ main(List<String> args){
     })
     .then((_){
       var note = new Note(rest.server , db.collection('note'),auth);
+      var success = new SuccessServer(rest.server,db.collection('success'),auth);
     });
 }

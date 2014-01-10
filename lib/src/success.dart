@@ -1,44 +1,30 @@
 part of ompa_common;
 
 class Success extends Model{
+  String desc = '';
+  DateTime time = new DateTime.now();
   
-  Success(data):super(data);
-  
+  Success();
+
   factory Success.formJson(String jsonstring){
     var json = JSON.decode(jsonstring);
-    var data = {};
-    
-    if(json.containsKey('time')){
-      data['time'] = DateTime.parse(json['time']);
-    }else{
-      data['time'] = new DateTime.now().toUtc();
-    }
-    if(json.containsKey('desc')){
-      data['desc'] = json['desc'];
-    }
-    return new Success(data);
+    var success = new Success();
+    success.time = DateTime.parse(json['time']);
+    success.desc = json['desc'];
+    return success;
   }
   
-  DateTime get time => data['time'];
-  set time(DateTime value) => data['time'] = value.toUtc();
-  
-  String get desc => data['desc'];
-  set desc(String value) => data['desc'] = value;
-  
   Map toJson(){
-    Map json = new Map.from(data);
-    json['time'] = json['time'].toString();
-    return json;
+    return {
+      'time': time.toUtc().toString(),
+      'desc': desc
+    };
   }
   
   Map toDB(){
-    var db = {};
-    db['_id'] = db['time'];
-    
-    if(data.containsKey('desc')){
-      db['desc'] = db['desc'];
-    }
-    
-    return db;
+    return {
+      '_id': time.toUtc(),
+      'desc': desc
+    };
   }
 }

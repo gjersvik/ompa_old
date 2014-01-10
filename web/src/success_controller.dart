@@ -4,12 +4,16 @@ class SuccessController{
   final Server _server;
   final Panels _panels;
   
+  SuccessPanel _success = new SuccessPanel();
   SuccessController(this._server, this._panels){
-    _panels.add(new SuccessPanel());
+    _panels.add(_success);
+    _success.onAdd.listen(add);
   }
   
   
   add(String desc){
-    _server.putJson('success/add',{'desc':desc});
+    var success = new Success();
+    success.desc = desc;
+    _server.putJson('success/add',success);
   }
 }

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'dart:html';
 
 import 'package:crypto/crypto.dart';
+import 'package:ompa/ompa.dart';
 
 part 'src/auth.dart';
 part 'src/auth_panel.dart';
