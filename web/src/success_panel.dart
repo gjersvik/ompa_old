@@ -44,4 +44,9 @@ class SuccessPanel extends Panel{
     content.append(header);
     content.append(fotter);
   }
+  
+  setData(DateTime day, List<Success> data){
+    print(day);
+    print(data);
+  }
 }

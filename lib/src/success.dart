@@ -6,8 +6,10 @@ class Success extends Model{
   
   Success();
 
-  factory Success.formJson(String jsonstring){
-    var json = JSON.decode(jsonstring);
+  factory Success.formJson(json){
+    if(json is String){
+      json = JSON.decode(json);
+    }
     var success = new Success();
     success.time = DateTime.parse(json['time']);
     success.desc = json['desc'];
