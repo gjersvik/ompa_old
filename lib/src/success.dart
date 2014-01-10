@@ -21,6 +21,10 @@ class Success extends Model{
     };
   }
   
+  String toString(){
+    return JSON.encode(this);
+  }
+  
   Map toDB(){
     return {
       '_id': time.toUtc(),

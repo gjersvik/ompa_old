@@ -7,11 +7,14 @@ class SuccessServer{
   final Auth _auth;
   SuccessServer(this._rest, this._db, this._auth){
     _rest.onPut('success/add', _auth.handlerBody((HttpRequest request, params, body) {
-      return save(new Success.formJson(body)).then((_){
-        request.response.statusCode = 204;
+      return save(new Success.formJson(body)).then((Success success){
+        request.response..statusCode = 200
+            ..write(success.toString());
       });
     }));
   }
   
-  Future save(Success success) => _db.insert(success.toDB());
+  Future save(Success success) => _db.insert(success.toDB()).then((_){
+    return success;
+  });
 }
