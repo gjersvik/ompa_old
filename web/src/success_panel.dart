@@ -7,12 +7,14 @@ class SuccessPanel extends Panel{
   Stream<String> onAdd;
   
   SpanElement date;
+  DivElement success;
   
   SuccessPanel():super(){
     var prev = new ButtonElement();
     prev.text = '<';
     prev.className = 'prev';
     onPrev = prev.onClick.where((e) => e.button == 0);
+    
     var next = new ButtonElement();
     next.text = '>';
     next.className = 'next';
@@ -27,6 +29,7 @@ class SuccessPanel extends Panel{
     header.append(date);
     header.append(next);
     
+    success = new DivElement();
     
     var textbox = new InputElement(type: 'text');
     var add = new ButtonElement();
@@ -44,13 +47,25 @@ class SuccessPanel extends Panel{
     
     content.classes.add('success');
     content.append(header);
+    content.append(success);
     content.append(fotter);
   }
   
   setData(DateTime day, List<Success> data){
     var months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 
      'July', 'August', 'September', 'October', 'November', 'December'];
-    date.text = "${day.day}. ${months[day.month]}. ${day.year}";
+    date.text = "${day.day}. ${months[day.month]} ${day.year}";
+    
+    var sb = new StringBuffer();
+    data.forEach((s){
+      sb.write('<strong>');
+      sb.write('${s.time.hour}:${s.time.minute}');
+      sb.write('</strong> ');
+      sb.write(s.desc);
+      sb.write('<br>');
+    });
+    
+    success.innerHtml = sb.toString();
     print(data);
   }
 }
