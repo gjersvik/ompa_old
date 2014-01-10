@@ -6,6 +6,8 @@ class SuccessPanel extends Panel{
   Stream onPrev;
   Stream<String> onAdd;
   
+  SpanElement date;
+  
   SuccessPanel():super(){
     var prev = new ButtonElement();
     prev.text = '<';
@@ -16,7 +18,7 @@ class SuccessPanel extends Panel{
     next.className = 'next';
     onNext = next.onClick.where((e) => e.button == 0);
     
-    var date = new SpanElement();
+    date = new SpanElement();
     date.text = '1. January 2014';
     
     var header = new DivElement();
@@ -46,7 +48,9 @@ class SuccessPanel extends Panel{
   }
   
   setData(DateTime day, List<Success> data){
-    print(day);
+    var months = ['', 'January', 'February', 'March', 'April', 'May', 'June', 
+     'July', 'August', 'September', 'October', 'November', 'December'];
+    date.text = "${day.day}. ${months[day.month]}. ${day.year}";
     print(data);
   }
 }
