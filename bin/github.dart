@@ -6,7 +6,7 @@ class GitHub {
   var client = new HttpClient();
   var uri = Uri.parse('https://8f55e6b86df1a2f3a00a8cc046c3489438d7645f@api.github.com/users/gjersvik/events');
   var etag = null;
-  Duration pool =  new Duration(seconds: 60);
+  Duration poll =  new Duration(seconds: 60);
   
   GitHub(){
     client.userAgent = 'gjersvik';
@@ -20,18 +20,30 @@ class GitHub {
       return request.close();
     }).then((HttpClientResponse res) {
       print('${res.statusCode} ${res.reasonPhrase }');
-      res.headers.forEach((name, values) => print('$name: ' + values.join(', ')));
-      
       if(res.statusCode == 200){
         etag = res.headers.value('etag');
-        pool = new Duration(seconds: int.parse(res.headers.value('x-poll-interval')));
-        return UTF8.decodeStream(res).then(print)
-            .then((_) => pool);
-      }else{
-        return pool;
+        poll = new Duration(seconds: int.parse(res.headers.value('x-poll-interval')));
+        return UTF8.decodeStream(res).then(parseEvent);
       }
-    }).then((Duration poll){
+    }).whenComplete((){
       new Timer(poll, poolEvents);
+    });
+  }
+  
+  parseEvent(String data){
+    List json = JSON.decode(data);
+    print(json);
+    Iterable pushEvent = json.skipWhile((Map event) => event['type'] != 'PushEvent');
+    Iterable commits = pushEvent.expand((Map event){ 
+      var i =  event['payload']['commits'];
+      if(i is Iterable){ 
+        return i; 
+      };
+      return [];
+    });
+    
+    commits.forEach((commit){
+      print(commit['message']);
     });
   }
 }
