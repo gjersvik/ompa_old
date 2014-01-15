@@ -59,13 +59,30 @@ class SuccessPanel extends Panel{
     
     var sb = new StringBuffer();
     data.forEach((s){
+      var time = s.time.toLocal();
       sb.write('<strong>');
-      sb.write('${s.time.hour}:${s.time.minute}');
+      sb.write(getTime(time));
       sb.write('</strong> ');
       sb.write(s.desc);
       sb.write('<br>');
     });
     
     success.innerHtml = sb.toString();
+  }
+  
+  String getTime(DateTime time){
+    var sb = new StringBuffer();
+    if(time.hour < 10){
+      sb.write('0${time.hour}');
+    }else{
+      sb.write(time.hour);
+    }
+    sb.write(':');
+    if(time.minute < 10){
+      sb.write('0${time.minute}');
+    }else{
+      sb.write(time.minute);
+    }
+    return sb.toString();
   }
 }
