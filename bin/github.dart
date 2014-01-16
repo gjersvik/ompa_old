@@ -7,6 +7,7 @@ class GitHub {
   var uri = Uri.parse('https://8f55e6b86df1a2f3a00a8cc046c3489438d7645f@api.github.com/users/gjersvik/events');
   var etag = null;
   Duration poll =  new Duration(seconds: 60);
+  var lastEventId = '';
   
   GitHub(){
     client.userAgent = 'gjersvik';
@@ -33,7 +34,8 @@ class GitHub {
   parseEvent(String data){
     List json = JSON.decode(data);
     print(json);
-    Iterable pushEvent = json.skipWhile((Map event) => event['type'] != 'PushEvent');
+    Iterable newEvent = json.takeWhile((e) => e['id'] != lastEventId);
+    Iterable pushEvent = newEvent.skipWhile((e) => e['type'] != 'PushEvent');
     Iterable commits = pushEvent.expand((Map event){ 
       var i =  event['payload']['commits'];
       if(i is Iterable){ 
@@ -45,6 +47,7 @@ class GitHub {
     commits.forEach((commit){
       print(commit['message']);
     });
+    lastEventId = json.first['id'];
   }
 }
 
