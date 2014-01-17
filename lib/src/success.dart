@@ -3,6 +3,7 @@ part of ompa_common;
 class Success extends Model{
   String desc = '';
   DateTime time = new DateTime.now();
+  Map<String,String> meta = {};
   
   Success();
 
@@ -13,6 +14,7 @@ class Success extends Model{
     var success = new Success();
     success.time = DateTime.parse(json['time']);
     success.desc = json['desc'];
+    success.meta = json['meta'];
     return success;
   }
   
@@ -20,13 +22,15 @@ class Success extends Model{
     var success = new Success();
     success.time = data['_id'];
     success.desc = data['desc'];
+    success.meta = data['meta'];
     return success;
   }
   
   Map toJson(){
     return {
       'time': time.toUtc().toString(),
-      'desc': desc
+      'desc': desc,
+      'meta': meta
     };
   }
   
@@ -37,7 +41,8 @@ class Success extends Model{
   Map toDb(){
     return {
       '_id': time.toUtc(),
-      'desc': desc
+      'desc': desc,
+      'meta': meta
     };
   }
 }
