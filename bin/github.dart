@@ -2,15 +2,22 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:ompa/ompa.dart';
+
 class GitHub {
+  Stream<Success> onSuccess;
+  
   var client = new HttpClient();
   var uri = Uri.parse('https://8f55e6b86df1a2f3a00a8cc046c3489438d7645f@api.github.com/users/gjersvik/events');
   var etag = null;
   Duration poll =  new Duration(seconds: 60);
   var lastEventId = '';
   
+  StreamController<Success> _success;
   GitHub(){
     client.userAgent = 'gjersvik';
+    _success = new StreamController();
+    onSuccess = _success.stream;
   }
   
   poolEvents(){
@@ -45,7 +52,9 @@ class GitHub {
     });
     
     commits.forEach((commit){
-      print(commit['message']);
+      var s = new Success();
+      s.desc = commit['message'];
+      _success.add(s);
     });
     lastEventId = json.first['id'];
   }
@@ -53,5 +62,6 @@ class GitHub {
 
 main(){
   var github = new GitHub();
+  github.onSuccess.listen(print);
   github.poolEvents();
 }
