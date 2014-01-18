@@ -11,7 +11,7 @@ class GitHub {
   var uri = Uri.parse('https://8f55e6b86df1a2f3a00a8cc046c3489438d7645f@api.github.com/users/gjersvik/events');
   var etag = null;
   Duration poll =  new Duration(seconds: 60);
-  var lastEventId = '';
+  var _lastId = '';
   
   StreamController<Success> _success;
   GitHub(){
@@ -41,7 +41,7 @@ class GitHub {
   parseEvent(String data){
     List json = JSON.decode(data);
     print(json);
-    Iterable newEvent = json.takeWhile((e) => e['id'] != lastEventId);
+    Iterable newEvent = filterOld(json);
     Iterable pushEvent = newEvent.skipWhile((e) => e['type'] != 'PushEvent');
     Iterable commits = pushEvent.expand((Map event){ 
       var i =  event['payload']['commits'];
@@ -56,7 +56,12 @@ class GitHub {
       s.desc = commit['message'];
       _success.add(s);
     });
-    lastEventId = json.first['id'];
+  }
+  
+  Iterable<Map> filterOld(Iterable<Map> events){
+    var lastId = _lastId;
+    _lastId = events.first['id'];
+    return events.takeWhile((e) => e['id'] != lastId);
   }
 }
 
