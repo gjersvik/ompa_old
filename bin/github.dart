@@ -8,34 +8,35 @@ import 'package:ompa/ompa.dart';
 class GitHub {
   Stream<Success> onSuccess;
   
-  var client = new HttpClient();
-  var uri = Uri.parse('https://8f55e6b86df1a2f3a00a8cc046c3489438d7645f@api.github.com/users/gjersvik/events');
-  var etag = null;
-  Duration poll =  new Duration(seconds: 60);
+  final String user;
+  final String _auth;
+  var _client = new HttpClient();
+  var _etag = null;
+  Duration _poll =  new Duration(seconds: 60);
   var _lastId = '';
   
   StreamController<Success> _success;
-  GitHub(){
-    client.userAgent = 'gjersvik';
+  GitHub(this.user, this._auth){
+    _client.userAgent = user;
     _success = new StreamController();
     onSuccess = _success.stream;
   }
   
   poolEvents(){
-    return client.getUrl(uri).then((HttpClientRequest request) {
-      if(etag != ''){
-        request.headers.add('If-None-Match', etag);
+    var eventuri = Uri.parse('https://$_auth@api.github.com/users/$user/events');
+    return _client.getUrl(eventuri).then((HttpClientRequest request) {
+      if(_etag != ''){
+        request.headers.add('If-None-Match', _etag);
       }
       return request.close();
     }).then((HttpClientResponse res) {
-      print('${res.statusCode} ${res.reasonPhrase }');
       if(res.statusCode == 200){
-        etag = res.headers.value('etag');
-        poll = new Duration(seconds: int.parse(res.headers.value('x-poll-interval')));
+        _etag = res.headers.value('etag');
+        _poll = new Duration(seconds: int.parse(res.headers.value('x-poll-interval')));
         return UTF8.decodeStream(res).then(parseEvent);
       }
     }).whenComplete((){
-      new Timer(poll, poolEvents);
+      new Timer(_poll, poolEvents);
     });
   }
   
@@ -54,8 +55,8 @@ class GitHub {
   
   Iterable<String> toCommit(Iterable<Map> events){
     return events.skipWhile((e) => e['type'] != 'PushEvent')
-        .expand((pushEvent){
-          var i =  pushEvent['payload']['commits'];
+        .expand((event){
+          var i =  event['payload']['commits'];
           if(i is Iterable){ 
             return i; 
           };
@@ -70,7 +71,7 @@ class GitHub {
       success.desc = 'Commit to ${uri.pathSegments[2]}';
       var build = new URIBuilder.fromUri(uri);
       build.setUserInfo('8f55e6b86df1a2f3a00a8cc046c3489438d7645f', 'x-oauth-basic');
-      return client.getUrl(build.decode())
+      return _client.getUrl(build.decode())
         .then((req) => req.close())
         .then((HttpClientResponse res) {
           if(res.statusCode == 200){
@@ -85,7 +86,10 @@ class GitHub {
 }
 
 main(){
-  var github = new GitHub();
-  //github.onSuccess.listen(print);
+  var gituser = 'gjersvik';
+  var gitauth = '8f55e6b86df1a2f3a00a8cc046c3489438d7645f';
+  
+  var github = new GitHub(gituser, gitauth);
+  github.onSuccess.listen(print);
   github.poolEvents();
 }
