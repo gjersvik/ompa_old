@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:convert';
 
+import 'package:http_utils/http_utils.dart';
 import 'package:ompa/ompa.dart';
 
 class GitHub {
@@ -40,15 +41,9 @@ class GitHub {
   
   parseEvent(String data){
     List json = JSON.decode(data);
-    print(json);
     Iterable events = filterOld(json);
     Iterable commits = toCommit(events);
-    
-    commits.forEach((commit){
-      var s = new Success();
-      s.desc = commit;
-      _success.add(s);
-    });
+    return createSuccsess(commits);
   }
   
   Iterable<Map> filterOld(Iterable<Map> events){
@@ -67,10 +62,30 @@ class GitHub {
           return [];
         }).map((e)=> e['url']);
   }
+  
+  Future createSuccsess(Iterable<String> urls){
+    return Future.forEach(urls, (String url){
+      var uri = Uri.parse(url);
+      var success = new Success();
+      success.desc = 'Commit to ${uri.pathSegments[2]}';
+      var build = new URIBuilder.fromUri(uri);
+      build.setUserInfo('8f55e6b86df1a2f3a00a8cc046c3489438d7645f', 'x-oauth-basic');
+      return client.getUrl(build.decode())
+        .then((req) => req.close())
+        .then((HttpClientResponse res) {
+          if(res.statusCode == 200){
+            return UTF8.decodeStream(res).then(JSON.decode).then((Map commit){
+              success.time = DateTime.parse(commit['commit']['author']['date']);
+              _success.add(success);
+            });
+          }
+        });
+    });
+  }
 }
 
 main(){
   var github = new GitHub();
-  github.onSuccess.listen(print);
+  //github.onSuccess.listen(print);
   github.poolEvents();
 }

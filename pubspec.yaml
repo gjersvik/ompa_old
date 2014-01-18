@@ -4,4 +4,5 @@ dependencies:
   browser: any
   crypto: any
   dartrs: any
+  http_utils: any
   mongo_dart: any
