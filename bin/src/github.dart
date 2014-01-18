@@ -1,9 +1,4 @@
-import 'dart:async';
-import 'dart:io';
-import 'dart:convert';
-
-import 'package:http_utils/http_utils.dart';
-import 'package:ompa/ompa.dart';
+part of ompa;
 
 class GitHub {
   Stream<Success> onSuccess;
@@ -83,13 +78,4 @@ class GitHub {
         });
     });
   }
-}
-
-main(){
-  var gituser = 'gjersvik';
-  var gitauth = '8f55e6b86df1a2f3a00a8cc046c3489438d7645f';
-  
-  var github = new GitHub(gituser, gitauth);
-  github.onSuccess.listen(print);
-  github.poolEvents();
 }
