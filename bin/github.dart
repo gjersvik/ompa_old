@@ -41,19 +41,12 @@ class GitHub {
   parseEvent(String data){
     List json = JSON.decode(data);
     print(json);
-    Iterable newEvent = filterOld(json);
-    Iterable pushEvent = newEvent.skipWhile((e) => e['type'] != 'PushEvent');
-    Iterable commits = pushEvent.expand((Map event){ 
-      var i =  event['payload']['commits'];
-      if(i is Iterable){ 
-        return i; 
-      };
-      return [];
-    });
+    Iterable events = filterOld(json);
+    Iterable commits = toCommit(events);
     
     commits.forEach((commit){
       var s = new Success();
-      s.desc = commit['message'];
+      s.desc = commit;
       _success.add(s);
     });
   }
@@ -62,6 +55,17 @@ class GitHub {
     var lastId = _lastId;
     _lastId = events.first['id'];
     return events.takeWhile((e) => e['id'] != lastId);
+  }
+  
+  Iterable<String> toCommit(Iterable<Map> events){
+    return events.skipWhile((e) => e['type'] != 'PushEvent')
+        .expand((pushEvent){
+          var i =  pushEvent['payload']['commits'];
+          if(i is Iterable){ 
+            return i; 
+          };
+          return [];
+        }).map((e)=> e['url']);
   }
 }
 
