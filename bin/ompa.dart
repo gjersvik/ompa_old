@@ -49,7 +49,10 @@ main(List<String> args){
       if(conf.containsKey('github')){
         var github = new GitHub(conf['github']['user'], conf['github']['auth']);
         github.onSuccess.listen(success.save);
-        github.poolEvents();
+        github.onLastId.listen((String lastId){
+          conf['github']['eventID'] = lastId;
+          db.collection('config').save(conf);
+        });
       }
     });
 }

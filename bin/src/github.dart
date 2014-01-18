@@ -2,6 +2,7 @@ part of ompa;
 
 class GitHub {
   Stream<Success> onSuccess;
+  Stream<String> onLastId;
   
   final String user;
   final String _auth;
@@ -11,10 +12,14 @@ class GitHub {
   var _lastId = '';
   
   StreamController<Success> _success;
-  GitHub(this.user, this._auth){
+  StreamController<String> _lastIdEvent;
+  GitHub(this.user, this._auth, [this._lastId]){
     _client.userAgent = user;
     _success = new StreamController();
     onSuccess = _success.stream;
+    _lastIdEvent = new StreamController();
+    onLastId = _lastIdEvent.stream;
+    poolEvents();
   }
   
   poolEvents(){
@@ -28,7 +33,8 @@ class GitHub {
       if(res.statusCode == 200){
         _etag = res.headers.value('etag');
         _poll = new Duration(seconds: int.parse(res.headers.value('x-poll-interval')));
-        return UTF8.decodeStream(res).then(parseEvent);
+        return UTF8.decodeStream(res).then(parseEvent)
+            .then((_) => _lastIdEvent.add(_lastId));
       }
     }).whenComplete((){
       new Timer(_poll, poolEvents);
