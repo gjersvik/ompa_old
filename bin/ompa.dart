@@ -45,7 +45,7 @@ main(List<String> args){
     })
     .then((_){
       var note = new Note(rest.server , db.collection('note'),auth);
-      var success = new SuccessServer(rest.server,db.collection('success-github'),auth);
+      var success = new SuccessServer(rest.server,db.collection('success'),auth);
       if(conf.containsKey('github')){
         var github = new GitHub(conf['github']['user'], conf['github']['auth']);
         github.onSuccess.listen(success.save);
