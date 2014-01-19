@@ -2,6 +2,7 @@ name: ompa
 description: A sample web application
 dependencies:
   browser: any
+  bson: any
   crypto: any
   dartrs: any
   http_utils: any
