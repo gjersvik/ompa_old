@@ -17,7 +17,7 @@ part 'src/note_controller.dart';
 part 'src/server.dart';
 part 'src/success_controller.dart';
 part 'src/success_panel.dart';
-
+part 'src/tasks.dart';
 
 void main() {
   Panels panels = new Panels();
@@ -31,5 +31,6 @@ void main() {
     }
     var success = new SuccessController(server,panels);
     var note = new NoteController(server, panels);
+    var tasks = new Tasks(document.body);
   });
 }

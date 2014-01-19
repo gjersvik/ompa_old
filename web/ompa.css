@@ -6,8 +6,6 @@ html,body{
   background-color: #E3F6FF;
 }
 
-
-
 button{
   height: 20px;
   background-color: #E88F0C;
@@ -18,6 +16,10 @@ button{
 
 button:hover{
   background-color: #FF0000;
+}
+
+.panels{
+  width: 67%;
 }
 
 .panel{
@@ -108,4 +110,12 @@ button:hover{
   position: absolute;
   top:0;
   right:0;
+}
+
+.tasks{
+  position: absolute;
+  background-color: white;
+  width: 33%;
+  height: 100%;
+  right: 0;
 }
