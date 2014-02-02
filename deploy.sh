@@ -2,7 +2,7 @@
 set -u -e;
 
 #Upload client code.
-aws s3 sync ./build s3://ompa.olem.org --acl public-read --delete
+aws s3 sync ./build s3://ompa.olem.org --acl public-read
 
 #Create a distrebution
 mkdir ompa
@@ -12,3 +12,13 @@ tar -cvf ompa.tar ompa/
 
 #Upload distrebution.
 aws s3 cp ompa.tar s3://ompa.olem.org/dist/ompa-$CI_BUILD_NUMBER.tar --acl private
+
+#Start new server
+
+#Wait for server
+
+#Update DNS
+
+
+
+#Nuke old server
