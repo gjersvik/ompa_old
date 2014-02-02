@@ -8,7 +8,7 @@ aws s3 sync ./build s3://ompa.olem.org --acl public-read --delete
 mkdir ompa
 dart --snapshot=ompa/ompa.snapshot bin/ompa.dart
 cp bin/start.sh ompa/start.sh
-tar -cvwf ompa.tar ompa/
+tar -cvf ompa.tar ompa/
 
 #Upload distrebution.
 aws s3 cp ompa.tar s3://ompa.olem.org/dist/ompa-$CI_BUILD_NUMBER.tar --acl private
