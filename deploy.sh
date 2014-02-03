@@ -1,6 +1,9 @@
 #!/bin/bash
 set -u -e;
 
+#Get aws utils
+pip -q install awscli
+
 #Upload client code.
 aws s3 sync ./build s3://ompa.olem.org --acl public-read
 
@@ -12,6 +15,8 @@ tar -cvf ompa.tar ompa/
 
 #Upload distrebution.
 aws s3 cp ompa.tar s3://ompa.olem.org/dist/ompa-$CI_BUILD_NUMBER.tar --acl private
+
+#Create Cloude Config
 
 #Start new server
 
