@@ -17,8 +17,8 @@ tar -cvf ompa.tar ompa/
 aws s3 cp ompa.tar s3://ompa.olem.org/dist/ompa-$CI_BUILD_NUMBER.tar --acl private
 
 #Create Cloude Config
-var config = sed s/BUILD_NUMBER/$CI_BUILD_NUMBER/g  s/BUILD_NUMBER/$CI_BUILD_NUMBER/g
-echo $config
+cloudconfig = sed -e 's/BUILD_NUMBER/$CI_BUILD_NUMBER/g' -e 's|MONGO_URI|$MONGO_URI|g' <cloud-config.yaml
+echo $cloudconfig
 
 #Start new server
 
