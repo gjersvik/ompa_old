@@ -19,7 +19,7 @@ aws s3 cp ompa.tar s3://ompa.olem.org/dist/ompa-$CI_BUILD_NUMBER.tar --acl priva
 #Create Cloude Config
 cloudconfig=$(sed -e "s/BUILD_NUMBER/$CI_BUILD_NUMBER/g" -e "s|MONGO_URI|$MONGO_URI|g" <cloud-config.yaml)
 echo $cloudconfig
-cloudconfig64=$("$cloudconfig" | base64 -w 0)
+cloudconfig64=$(echo $cloudconfig | base64 -w 0)
 echo $cloudconfig64
 
 
