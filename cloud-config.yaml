@@ -1,4 +1,6 @@
 #cloud-config
+#build: BUILD_NUMBER
+#db: MONGO_URI
 package_upgrade: true
 packages:
  - python-pip
