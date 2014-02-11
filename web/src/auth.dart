@@ -1,24 +1,19 @@
 part of ompa_html;
 
-Future<List<int>> auth(Panels panels){
+Future<Auth> auth(Panels panels){
   if(window.sessionStorage.containsKey('passhash')){
-    var passhash = window.sessionStorage['passhash'];
-    passhash = CryptoUtils.base64StringToBytes(passhash);
-    return new Future.value(passhash);
+    var auth = new Auth.fromBase64(window.sessionStorage['passhash']);
+    return new Future.value(auth);
   }
   
-  var salt = '5Yc8GDdmKxlYpLnzcGBKpxZ0YU1rottDYGsWbDJrTK4WBsp2Hzd1sOSjAOLPdBfc';
   var authpanel = new AuthPanel();
   panels.add(authpanel);
   
   return authpanel.onPassword.first.then((pass){
-    var key = pass + salt;
-    var hash = new SHA256();
-    hash.add(key.codeUnits);
     panels.remove(authpanel);
     
-    var passhash = hash.close();
-    window.sessionStorage['passhash'] = CryptoUtils.bytesToBase64(passhash);
-    return passhash;
+    var auth = new Auth.fromPassword(pass);
+    window.sessionStorage['passhash'] = auth.toBase64();
+    return auth;
   });
 }

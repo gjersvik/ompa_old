@@ -3,8 +3,8 @@ part of ompa_html;
 class Server{
   final String server;
   
-  final List<int> _key;
-  Server(this.server, this._key){
+  final Auth _auth;
+  Server(this.server, this._auth){
   }
   
   Future<String> get(String path) => _send(path, 'GET');
@@ -16,18 +16,11 @@ class Server{
   
   Future<String> _send(String path, String method, [String body]){
     path = path.replaceAll(' ', '_');
-    var hmac = new HMAC(new SHA256(),_key);
-    hmac.add('/$path'.codeUnits);
-    hmac.add(method.codeUnits);
-    if(body != null){
-      hmac.add(body.codeUnits);
-    }
-    var key = CryptoUtils.bytesToBase64(hmac.close());
     return HttpRequest.request('$server$path', 
         method: method,
         withCredentials: true,
         requestHeaders: {
-          'Authorization': 'OMPA-TOKEN hash="$key"'
+          'Authorization': _auth.sign(path: '/$path', body: body , metode: method)
         },
         sendData: body)
         .then((http) => http.response.toString());
