@@ -38,7 +38,9 @@ class Auth{
     var hmac = new HMAC(new SHA256(),_key);
     hmac.add(path.codeUnits);
     hmac.add(method.codeUnits);
-    hmac.add(body.codeUnits);
+    if(body != null){
+      hmac.add(body.codeUnits);
+    }
     return hmac;
   }
 }
