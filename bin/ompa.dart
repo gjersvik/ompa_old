@@ -10,7 +10,7 @@ import 'package:http_utils/http_utils.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:ompa/ompa.dart';
 
-part 'src/auth.dart';
+part 'src/server_auth.dart';
 part 'src/github.dart';
 part 'src/note.dart';
 part 'src/rest.dart';
@@ -33,13 +33,13 @@ main(List<String> args){
   Db db = null;
   Map conf = {};
   Rest rest = null;
-  Auth auth;
+  ServerAuth auth;
   getDb(args[0])
     .then((Db d)=> db = d)
     .then(getConfig)
     .then((Map c){
       conf = c;
-      auth = new Auth(conf['httpkey']);
+      auth = new ServerAuth(conf['httpkey']);
       rest = new Rest(conf);
       return rest.ready;
     })

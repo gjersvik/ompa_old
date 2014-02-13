@@ -1,9 +1,9 @@
 part of ompa;
 
-class Auth{
-  List<int> _key;
-  Auth(String key){
-    _key = CryptoUtils.base64StringToBytes(key);
+class ServerAuth{
+  Auth _auth;
+  ServerAuth(String key){
+    _auth = new Auth.fromBase64(key);
   }
   
   Function handler( Future handler(HttpRequest, Map)){
@@ -33,14 +33,9 @@ class Auth{
   }
   
   auth(HttpRequest req, [body]){
-    var hmac = new HMAC(new SHA256(),_key);
-    hmac.add(req.uri.path.codeUnits);
-    hmac.add(req.method.codeUnits);
-    if(body != null){
-      hmac.add(body.codeUnits);
-    }
-    var digest = CryptoUtils.base64StringToBytes(
-        req.headers['Authorization'].first.split('"')[1]);
-    return hmac.verify(digest);
+    return _auth.validate(req.headers['Authorization'].first,
+        path: req.uri.path,
+        metode: req.method,
+        body: body);
   }
 }

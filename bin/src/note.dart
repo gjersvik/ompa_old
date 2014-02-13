@@ -4,7 +4,7 @@ class Note{
   
   final RestfulServer _rest;
   final DbCollection _db;
-  final Auth _auth;
+  final ServerAuth _auth;
   Note(this._rest, this._db, this._auth){
     _rest.onGet('note/{name}', _auth.handler((request, params) {
       var id = params['name'].replaceAll('_',' ');
