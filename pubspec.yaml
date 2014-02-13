@@ -6,4 +6,5 @@ dependencies:
   crypto: any
   dartrs: any
   http_utils: any
+  intl: any
   mongo_dart: any
