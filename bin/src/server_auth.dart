@@ -35,7 +35,7 @@ class ServerAuth{
   auth(HttpRequest req, [body]){
     return _auth.validate(req.headers['Authorization'].first,
         path: req.uri.path,
-        metode: req.method,
+        method: req.method,
         body: body);
   }
 }

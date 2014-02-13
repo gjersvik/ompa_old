@@ -20,7 +20,7 @@ class Server{
         method: method,
         withCredentials: true,
         requestHeaders: {
-          'Authorization': _auth.sign(path: '/$path', body: body , metode: method)
+          'Authorization': _auth.sign(path: '/$path', body: body , method: method)
         },
         sendData: body)
         .then((http) => http.response.toString());
