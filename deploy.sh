@@ -23,6 +23,8 @@ cloudconfig64=$(echo $cloudconfig | base64 -w 0)
 echo $cloudconfig64
 
 echo "Start new server"
+aws ec2 run-instances --dry-run --image-id ami-0e0cf879 --security-groups Ompa \
+--user-data $cloudconfig64 --instance-type t1.micro --key-name OleMartin
 
 echo "Wait for server"
 
