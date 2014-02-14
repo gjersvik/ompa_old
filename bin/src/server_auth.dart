@@ -33,9 +33,8 @@ class ServerAuth{
   }
   
   auth(HttpRequest req, [body]){
-    if(req.headers['Authorization'] == null){
+    if(req.headers['Authorization'] == null) 
       return false;
-    }
     return _auth.validate(req.headers['Authorization'].first,
         path: req.uri.path,
         method: req.method,
