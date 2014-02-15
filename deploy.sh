@@ -24,7 +24,7 @@ echo "$cloudconfig64"
 
 echo "Start new server"
 aws ec2 run-instances --image-id ami-0e0cf879 --security-groups Ompa \
---user-data $cloudconfig64 --instance-type t1.micro --key-name OleMartin
+--user-data "$cloudconfig" --instance-type t1.micro --key-name OleMartin
 
 echo "Wait for server"
 
