@@ -1,11 +1,11 @@
 #cloud-config
-#build: BUILD_NUMBER
-#db: MONGO_URI
 package_upgrade: true
 packages:
  - python-pip
 runcmd:
- - pip aws-cli
+ - pip install aws-cli
  - su ubuntu
  - cd /home/ubuntu
- - touch done.txt
+ - aws s3 cp s3://ompa.olem.org/dist/ompa-BUILD_NUMBER.tar ompa.tar
+ - tar xvf file-1.0.tar
+ - ./ompa start.sh MONGO_URI;
