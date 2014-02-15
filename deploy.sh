@@ -25,10 +25,10 @@ echo "Start new server"
 aws iam create-instance-profile --instance-profile-name "ompa$CI_BUILD_NUMBER"
 aws iam add-role-to-instance-profile \
 --instance-profile-name "ompa$CI_BUILD_NUMBER" --role-name ompa-server
-
+sleep 5
 aws ec2 run-instances --image-id ami-480bea3f --security-groups Ompa \
 --user-data "$cloudconfig" --instance-type t1.micro --key-name OleMartin \
---iam-instance-profile 'Name="ompa'"$CI_BUILD_NUMBER"'"'
+--iam-instance-profile Name=ompa$CI_BUILD_NUMBER
 
 echo "Wait for server"
 
