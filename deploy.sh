@@ -5,7 +5,7 @@ echo "Get aws utils"
 pip -q install awscli
 
 echo "Upload client code."
-aws s3 sync ./build s3://ompa.olem.org --acl public-read
+aws s3 sync ./build s3://ompa.olem.org --quiet --acl public-read
 
 echo "Create a server distrebution."
 mkdir ompa
@@ -18,9 +18,9 @@ aws s3 cp ompa.tar s3://ompa.olem.org/dist/ompa-$CI_BUILD_NUMBER.tar --acl priva
 
 echo "Create Cloude Config".
 cloudconfig=$(sed -e "s/BUILD_NUMBER/$CI_BUILD_NUMBER/g" -e "s|MONGO_URI|$MONGO_URI|g" <cloud-config.yaml)
-echo $cloudconfig
-cloudconfig64=$(echo $cloudconfig | base64 -w 0)
-echo $cloudconfig64
+echo "$cloudconfig"
+cloudconfig64=$(echo "$cloudconfig" | base64 -w 0)
+echo "$cloudconfig64"
 
 echo "Start new server"
 aws ec2 run-instances --image-id ami-0e0cf879 --security-groups Ompa \
