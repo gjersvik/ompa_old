@@ -3,7 +3,7 @@ package_upgrade: true
 packages:
  - python-pip
 runcmd:
- - pip install aws-cli
+ - sudo pip install awscli
  - su ubuntu
  - cd /home/ubuntu
  - aws s3 cp s3://ompa.olem.org/dist/ompa-BUILD_NUMBER.tar ompa.tar

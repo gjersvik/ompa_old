@@ -21,8 +21,13 @@ cloudconfig=$(sed -e "s/BUILD_NUMBER/$CI_BUILD_NUMBER/g" -e "s|MONGO_URI|$MONGO_
 echo "$cloudconfig"
 
 echo "Start new server"
+aws iam create-instance-profile --instance-profile-name ompa-$CI_BUILD_NUMBER
+aws iam add-role-to-instance-profile \
+--instance-profile-name ompa-$CI_BUILD_NUMBER --role-name ompa-server-s3
+
 aws ec2 run-instances --image-id ami-0e0cf879 --security-groups Ompa \
---user-data "$cloudconfig" --instance-type t1.micro --key-name OleMartin
+--user-data "$cloudconfig" --instance-type t1.micro --key-name OleMartin \
+--iam-instance-profile Name="ompa-$CI_BUILD_NUMBER"
 
 echo "Wait for server"
 
