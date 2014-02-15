@@ -22,7 +22,7 @@ cloudconfig=$(sed -e "s/BUILD_NUMBER/$CI_BUILD_NUMBER/g" \
 echo "$cloudconfig"
 
 echo "Start new server"
-aws iam create-instance-profile --instance-profile-name ompa-$CI_BUILD_NUMBER
+aws iam create-instance-profile --instance-profile-name ompa$CI_BUILD_NUMBER
 aws iam add-role-to-instance-profile \
 --instance-profile-name ompa$CI_BUILD_NUMBER --role-name ompa-server
 
