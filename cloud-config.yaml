@@ -6,6 +6,6 @@ runcmd:
  - sudo pip install awscli
  - su ubuntu
  - cd /home/ubuntu
- - aws s3 cp s3://ompa.olem.org/dist/ompa-BUILD_NUMBER.tar ompa.tar
- - tar xvf file-1.0.tar
+ - aws s3 cp s3://ompa.olem.org/dist/ompa-BUILD_NUMBER.tar ompa.tar --region=eu-west-1
+ - tar xvf ompa.tar
  - ./ompa start.sh MONGO_URI;
