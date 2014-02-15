@@ -4,6 +4,7 @@ class Success extends Model{
   String desc = '';
   DateTime time = new DateTime.now();
   Map<String,String> meta = {};
+  ObjectId _id = new ObjectId();
   
   Success();
 
@@ -20,7 +21,8 @@ class Success extends Model{
   
   factory Success.formDb(Map data){
     var success = new Success();
-    success.time = data['_id'];
+    success._id = data['_id'];
+    success.time = data['time'];
     success.desc = data['desc'];
     success.meta = data['meta'];
     return success;
@@ -40,7 +42,8 @@ class Success extends Model{
   
   Map toDb(){
     return {
-      '_id': time.toUtc(),
+      '_id': _id,
+      'time': time.toUtc(),
       'desc': desc,
       'meta': meta
     };

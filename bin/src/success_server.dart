@@ -33,7 +33,7 @@ class SuccessServer{
   Future<List<Success>> getDay(DateTime day){
     var start = new DateTime.utc(day.year,day.month,day.day);
     var end = new DateTime.utc(day.year,day.month,day.day + 1);
-    return _db.find(where.inRange('_id', start, end)).toList()
+    return _db.find(where.inRange('time', start, end)).toList()
         .then((list) => list.map((s)=> new Success.formDb(s)).toList());
   }
 }
