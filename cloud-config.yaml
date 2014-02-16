@@ -8,4 +8,4 @@ runcmd:
  - cd /home/ubuntu
  - aws s3 cp s3://ompa.olem.org/dist/ompa-BUILD_NUMBER.tar ompa.tar --region=eu-west-1
  - tar xvf ompa.tar
- - ./ompa start.sh MONGO_URI;
+ - ./ompa/start.sh MONGO_URI
