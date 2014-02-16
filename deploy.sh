@@ -18,6 +18,11 @@ cloudconfig=$(sed -e "s/BUILD_NUMBER/$CI_BUILD_NUMBER/g" \
 -e "s|MONGO_URI|$MONGO_URI|g" <cloud-config.yaml)
 echo "$cloudconfig"
 
+echo "Get id of old server";
+old_instance_id=$(aws ec2 describe-instances --output text \
+--query 'Reservations[*].Instances[*].InstanceId' \
+--filters Name=tag-key,Values=Project Name=tag-value,Values=ompa)
+
 echo "Start new server"
 instance_id=$(aws ec2 run-instances --image-id ami-480bea3f --security-groups Ompa \
 --user-data "$cloudconfig" --instance-type t1.micro --key-name OleMartin \
@@ -32,3 +37,4 @@ aws ec2 create-tags --resources $instance_id \
 echo "Update DNS"
 
 echo "Nuke old server"
+aws ec2 terminate-instances --instance-ids "$old_instance_id"
