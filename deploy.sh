@@ -21,7 +21,8 @@ echo "$cloudconfig"
 echo "Start new server"
 instance_id=$(aws ec2 run-instances --image-id ami-480bea3f --security-groups Ompa \
 --user-data "$cloudconfig" --instance-type t1.micro --key-name OleMartin \
---iam-instance-profile Name=ompa-server --query 'Instances[*].InstanceId');
+--iam-instance-profile Name=ompa-server --output text \
+--query 'Instances[*].InstanceId');
 
 echo instance_id=$instance_id
 
