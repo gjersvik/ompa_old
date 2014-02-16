@@ -19,11 +19,14 @@ cloudconfig=$(sed -e "s/BUILD_NUMBER/$CI_BUILD_NUMBER/g" \
 echo "$cloudconfig"
 
 echo "Start new server"
-aws ec2 run-instances --image-id ami-480bea3f --security-groups Ompa \
+instance_id=$(aws ec2 run-instances --image-id ami-480bea3f --security-groups Ompa \
 --user-data "$cloudconfig" --instance-type t1.micro --key-name OleMartin \
---iam-instance-profile Name=ompa-server
+--iam-instance-profile Name=ompa-server --query 'Instances[*].InstanceId');
 
-echo "Wait for server"
+echo instance_id=$instance_id
+
+aws ec2 create-tags --resources $instance_id \
+--tags Key=Project,Value=ompa Key=BuildId,Value=$CI_BUILD_NUMBER
 
 echo "Update DNS"
 
