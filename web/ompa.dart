@@ -1,9 +1,14 @@
 library ompa_html;
 
+// Temporary fix the 3mb js size.
+@MirrorsUsed(override: '*')
+import 'dart:mirrors';
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
+import 'package:angular/angular.dart';
 import 'package:ompa/ompa.dart';
 
 part 'src/auth.dart';
@@ -19,6 +24,8 @@ part 'src/success_panel.dart';
 part 'src/tasks.dart';
 
 void main() {
+  ngBootstrap();
+  
   Panels panels = new Panels();
   document.body.append(panels.elem);
   auth(panels).then((auth){
