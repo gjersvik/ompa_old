@@ -4,7 +4,6 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:html';
 
-import 'package:crypto/crypto.dart';
 import 'package:ompa/ompa.dart';
 
 part 'src/auth.dart';
