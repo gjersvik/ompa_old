@@ -4,4 +4,15 @@ part of ompa_html;
 class AuthController{
   bool loggedIn = false;
   String key;
+  
+  AuthController() {
+  }
+  
+  login(){
+    loggedIn = true;
+  }
+  
+  logout(){
+    loggedIn = false;
+  }
 }

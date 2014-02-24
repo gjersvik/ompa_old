@@ -10,7 +10,9 @@
     <header>
       <h1>Ole Martins Peronal Agnet</h1>
       <span ompa-auth>
-        <input type="password" ng-model="OmpaAuth.key"><button>Enter key</button>
+        <input name="key" type="password" ng-model="OmpaAuth.key" ng-unless="OmpaAuth.loggedIn">
+        <button ng-unless="OmpaAuth.loggedIn" ng-click="OmpaAuth.login()">Enter key</button>
+        <button ng-if="OmpaAuth.loggedIn" ng-click="OmpaAuth.logout()">Remove key</button>
       </span>
     </header>
     <script type="application/dart" src="ompa.dart"></script>

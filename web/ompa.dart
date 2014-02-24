@@ -24,8 +24,14 @@ part 'src/success_controller.dart';
 part 'src/success_panel.dart';
 part 'src/tasks.dart';
 
+class OmpaModule extends Module{
+  OmpaModule() {
+    type(AuthController);
+  }
+}
+
 void main() {
-  ngBootstrap();
+  ngBootstrap(module: new OmpaModule());
   
   Panels panels = new Panels();
   document.body.append(panels.elem);
