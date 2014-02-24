@@ -12,6 +12,7 @@ import 'package:angular/angular.dart';
 import 'package:ompa/ompa.dart';
 
 part 'src/auth.dart';
+part 'src/auth_controller.dart';
 part 'src/auth_panel.dart';
 part 'src/panel.dart';
 part 'src/panels.dart';
