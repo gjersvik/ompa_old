@@ -6,6 +6,17 @@ html,body{
   background-color: #E3F6FF;
 }
 
+header.main{
+  background-color: #000;
+  color: #FFF;
+  font-size: 1.5em;
+  padding-left: 1em;
+}
+
+.ompa-auth{
+  float: right;
+}
+
 button{
   height: 20px;
   background-color: #E88F0C;

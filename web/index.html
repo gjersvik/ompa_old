@@ -7,9 +7,9 @@
     <link rel="stylesheet" href="ompa.css">
   </head>
   <body>
-    <header>
-      <h1>Ole Martins Peronal Agnet</h1>
-      <span ompa-auth>
+    <header class="main">
+      Ole Martins Peronal Agnet
+      <span class="ompa-auth" ompa-auth>
         <input name="key" type="password" ng-model="OmpaAuth.key" ng-unless="OmpaAuth.loggedIn">
         <button ng-unless="OmpaAuth.loggedIn" ng-click="OmpaAuth.login()">Enter key</button>
         <button ng-if="OmpaAuth.loggedIn" ng-click="OmpaAuth.logout()">Remove key</button>
