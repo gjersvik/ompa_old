@@ -7,16 +7,11 @@ class AuthController{
   
   Future<Auth> onAuth;
   
-  // HACK
-  static Completer<Auth> _onAuth =  new Completer<Auth>();
+  Completer<Auth> _onAuth =  new Completer<Auth>();
   
   
   AuthController() {
     onAuth = _onAuth.future;
-    // HACK
-    if(_onAuth.isCompleted){
-      return;
-    }
       
     if(window.sessionStorage.containsKey('passhash')){
       _onAuth.complete(new Auth.fromBase64(window.sessionStorage['passhash']));

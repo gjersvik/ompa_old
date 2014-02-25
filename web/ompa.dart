@@ -17,29 +17,17 @@ part 'src/panels.dart';
 part 'src/new_note_panel.dart';
 part 'src/note_panel.dart';
 part 'src/note_controller.dart';
+part 'src/ompa_controller.dart';
 part 'src/server.dart';
 part 'src/success_controller.dart';
 part 'src/success_panel.dart';
 part 'src/tasks.dart';
 
-void main() {
-  var ompaModule = new Module();
-  ompaModule.type(AuthController);
-  Injector injector = ngBootstrap(module: ompaModule);
-  
-  AuthController authctrl =  injector.get(AuthController);
-  
-  Panels panels = new Panels();
-  document.body.append(panels.elem);
-  authctrl.onAuth.then((auth){
-    var server;
-    if(window.location.host == '127.0.0.1:3030'){
-      server = new Server('http://127.0.0.1:8080/',auth);
-    }else{
-      server = new Server('http://api.ompa.olem.org:8080/',auth);
-    }
-    var success = new SuccessController(server,panels);
-    var note = new NoteController(server, panels);
-    var tasks = new Tasks(document.body);
-  });
+class OmpaModule extends Module{
+  OmpaModule(){
+    type(AuthController);
+    type(OmpaController);
+  }
 }
+
+main() => ngBootstrap(module: new OmpaModule());
