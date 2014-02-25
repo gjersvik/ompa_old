@@ -36,6 +36,7 @@ aws ec2 create-tags --resources $instance_id \
 --tags Key=Project,Value=ompa Key=BuildId,Value=$CI_BUILD_NUMBER
 
 echo "Update DNS"
+sleep 5
 aws ec2 associate-address --instance-id $instance_id --public-ip 79.125.120.89
 
 echo "Nuke old server"
