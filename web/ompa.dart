@@ -1,8 +1,8 @@
 library ompa_html;
 
 // Temporary fix the 3mb js size.
-@MirrorsUsed(override: '*')
-import 'dart:mirrors';
+//@MirrorsUsed(override: '*')
+//import 'dart:mirrors';
 
 import 'dart:async';
 import 'dart:convert';
