@@ -3,7 +3,7 @@ part of ompa_html;
 class Server{
   final String server;
   
-  final Auth _auth;
+  final AuthService _auth;
   Server(this.server, this._auth){
   }
   
@@ -20,7 +20,7 @@ class Server{
         method: method,
         withCredentials: true,
         requestHeaders: {
-          'Authorization': _auth.sign(path: '/$path', body: body , method: method)
+          'Authorization': _auth.auth.sign(path: '/$path', body: body , method: method)
         },
         sendData: body)
         .then((http) => http.response.toString());

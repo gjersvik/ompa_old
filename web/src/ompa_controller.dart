@@ -2,18 +2,12 @@ part of ompa_html;
 
 @NgController( selector: '[ompa]', publishAs: 'Ompa')
 class OmpaController{
-  OmpaController(AuthService _auth){
+  OmpaController(AuthService _auth, Injector _in){
     Panels panels = new Panels();
     document.body.append(panels.elem);
     _auth.onChange.first.then((auth){
-      var server;
-      if(window.location.host == '127.0.0.1:3030'){
-        server = new Server('http://127.0.0.1:8080/',auth);
-      }else{
-        server = new Server('http://api.ompa.olem.org:8080/',auth);
-      }
-      var success = new SuccessController(server,panels);
-      var note = new NoteController(server, panels);
+      var success = new SuccessController(_in.get(Server),panels);
+      var note = new NoteController(_in.get(Server), panels);
       var tasks = new Tasks(document.body);
     });
   }

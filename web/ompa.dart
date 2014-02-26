@@ -29,6 +29,14 @@ class OmpaModule extends Module{
     type(AuthController);
     type(AuthService);
     type(OmpaController);
+    factory(Server,(Injector i){
+      print('CreateServer');
+      if(window.location.host == '127.0.0.1:3030'){
+        return new Server('http://127.0.0.1:8080/',i.get(AuthService));
+      }else{
+        return new Server('http://api.ompa.olem.org:8080/',i.get(AuthService));
+      }
+    });
   }
 }
 
