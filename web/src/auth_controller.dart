@@ -5,30 +5,13 @@ class AuthController{
   bool loggedIn = false;
   String key;
   
-  Future<Auth> onAuth;
+  AuthService _service;
   
-  Completer<Auth> _onAuth =  new Completer<Auth>();
-  
-  
-  AuthController() {
-    onAuth = _onAuth.future;
-      
-    if(window.sessionStorage.containsKey('passhash')){
-      _onAuth.complete(new Auth.fromBase64(window.sessionStorage['passhash']));
-      loggedIn = true;
-    }
+  AuthController(AuthService this._service) {
+    _service.onChange.listen((Auth key)=>loggedIn = key != null);
   }
   
-  login(){
-    var auth = new Auth.fromPassword(key);
-    _onAuth.complete(auth);
-    window.sessionStorage['passhash'] = auth.toBase64();
-    loggedIn = true;
-  }
+  login() => _service.login(key);
   
-  logout(){
-    loggedIn = false;
-    window.sessionStorage.remove('passhash');
-    window.location.assign(window.location.href);
-  }
+  logout() => _service.logout();
 }
