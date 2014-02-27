@@ -1,11 +1,10 @@
 part of ompa_html;
 
 class Server{
-  final String server;
   
   final AuthService _auth;
-  Server(this.server, this._auth){
-  }
+  
+  Server(this._auth);
   
   Future<String> get(String path) => _send(path, 'GET');
   Future<Object> getJson(String path) => get(path).then(JSON.decode);
@@ -16,7 +15,7 @@ class Server{
   
   Future<String> _send(String path, String method, [String body]){
     path = path.replaceAll(' ', '_');
-    return HttpRequest.request('$server$path', 
+    return HttpRequest.request('$serverUri$path', 
         method: method,
         withCredentials: true,
         requestHeaders: {
