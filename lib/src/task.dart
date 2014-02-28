@@ -33,10 +33,6 @@ class Task extends Model{
     return json;
   }
   
-  String toString(){
-    return JSON.encode(this);
-  }
-  
   Map toDb(){
     var doc = {'name' : name};
     if(_id != null){

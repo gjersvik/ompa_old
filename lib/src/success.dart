@@ -36,10 +36,6 @@ class Success extends Model{
     };
   }
   
-  String toString(){
-    return JSON.encode(this);
-  }
-  
   Map toDb(){
     return {
       '_id': _id,
