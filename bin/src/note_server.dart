@@ -1,40 +1,40 @@
 part of ompa;
 
-class NoteServer{
+class NoteServer extends Server{
+  String name = 'note';
   
-  final RestfulServer _rest;
-  final ServerAuth _auth;
   final NoteService _service;
-  NoteServer(this._rest, this._auth, this._service){
-    _rest.onGet('note/{name}', _auth.handler((request, params) {
-      return _service.get(params['name'].replaceAll('_',' '))
-          .then((note){
-            request.response..statusCode = 200
-                ..write(note.text);
-          });
-    }));
+  NoteServer(this._service);
 
-    _rest.onPut('note/{name}', _auth.handlerBody((HttpRequest request, params, body) {
-      var note = new Note()
-          ..name = params['name'].replaceAll('_',' ')
-          ..text = body;
-      return _service.save(note).then((_) => request.response.statusCode = 201);
-    }));
-    
-    _rest.onDelete('note/{name}', _auth.handler((HttpRequest request, params) {
-      return _service.get(params['name'].replaceAll('_',' '))
-          .then(_service.remove)
-          .then((_){
-            request.response.statusCode = 204;
-          });
-    }));
-    
-    _rest.onGet('note', _auth.handler((HttpRequest request, params){
-      return _service.getAll().toList()
+  Future<HttpRequest> handleRequest(HttpRequest req, Map json) {
+    if(req.method == 'GET'){
+      return get(req);
+    }
+    if(req.method == 'PUT'){
+      return put(req, json);
+    }
+    if(req.method == 'DELETE'){
+      return delete(req, json);
+    }
+    req.response..statusCode = 404;
+    return new Future.value(req);
+  }
+  
+  Future<HttpRequest> get(HttpRequest req) {
+    return _service.getAll().toList()
         .then((notes){
-          request.response..statusCode = 200
+          req.response..statusCode = 200
               ..write(JSON.encode(notes));
         });
-    }));
+  }
+  
+  Future<HttpRequest> put(HttpRequest req, Map json) {
+    return _service.save(new Note.fromJson(json))
+        .then((_) => req.response.statusCode = 201);
+  }
+      
+  Future<HttpRequest> delete(HttpRequest request, Map json) {
+    return _service.remove(new Note.fromJson(json))
+        .then((_) => request.response.statusCode = 204);
   }
 }
