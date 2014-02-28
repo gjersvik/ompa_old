@@ -23,6 +23,7 @@ class Rest{
     var old = server.preProcessor;
     server.preProcessor = (HttpRequest res){
       core( res );
+      res.response.headers.contentType = new ContentType('application', 'json', charset: 'utf-8');
       return old( res );
     };
     
