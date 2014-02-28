@@ -1,8 +1,11 @@
 part of ompa;
 
 class Server{
+  Auth _auth;
+  
   Map _config;
   Map<String,Handler> _handlers = {};
+  Server(this._auth);
   
   addHandler(Handler hand){
     _handlers[hand.name] = hand;
@@ -16,10 +19,9 @@ class Server{
             .catchError((e){
               req.response
                   ..statusCode = 500
-                  ..write(e)
-                  ..close();
+                  ..write(e);
               print(e);
-            });
+            }).whenComplete(() => req.response.close());
       });
     });
   }
@@ -33,6 +35,9 @@ class Server{
   
   request(HttpRequest req, String body){
     addHeaders(req);
+    if(auth(req, body) == false){
+      return;
+    }
   }
   
   addHeaders(HttpRequest req){
@@ -42,6 +47,17 @@ class Server{
         ..add('Access-Control-Allow-Methods', 'GET,PUT,DELETE')
         ..add('Access-Control-Allow-Credentials', 'true')
         ..add('Access-Control-Allow-Headers', 'Authorization');
+  }
+  
+  bool auth(HttpRequest req, String body){
+    if(req.headers['Authorization'] != null){
+      var valid = _auth.validate(req.headers['Authorization'].first,
+          path: req.uri.path,
+          method: req.method,
+          body: body);
+    }
+    req.response.statusCode = 403;
+    return false;
   }
   
   
