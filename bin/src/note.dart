@@ -1,11 +1,11 @@
 part of ompa;
 
-class Note{
+class OldNote{
   
   final RestfulServer _rest;
   final DbCollection _db;
   final ServerAuth _auth;
-  Note(this._rest, this._db, this._auth){
+  OldNote(this._rest, this._db, this._auth){
     _rest.onGet('note/{name}', _auth.handler((request, params) {
       var id = params['name'].replaceAll('_',' ');
       return _db.findOne({'_id': id}).then((data){
