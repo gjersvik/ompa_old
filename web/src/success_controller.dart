@@ -33,7 +33,7 @@ class SuccessController{
   
   getDay(DateTime day){
     return _server.getJson('success/${day.year}/${day.month}/${day.day}')
-        .then((List data) => data.map((d)=> new Success.formJson(d)).toList())
+        .then((List data) => data.map((d)=> new Success.fromJson(d)).toList())
         .then((data) => _success.setData(date, data));
   }
 }
