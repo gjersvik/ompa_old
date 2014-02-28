@@ -11,7 +11,7 @@ import 'package:ompa/ompa.dart';
 
 part 'src/server_auth.dart';
 part 'src/github.dart';
-part 'src/note.dart';
+part 'src/note_server.dart';
 part 'src/note_service_mongo.dart';
 part 'src/rest.dart';
 part 'src/success_server.dart';
@@ -44,7 +44,8 @@ main(List<String> args){
       return rest.ready;
     })
     .then((_){
-      var note = new OldNote(rest.server , db.collection('note'),auth);
+      var noteService = new NoteServiceMongo(db.collection('note'));
+      var noteServer = new NoteServer(rest.server, auth, noteService);
       var success = new SuccessServer(rest.server,db.collection('success'),auth);
       if(conf.containsKey('github')){
         var github = new GitHub(conf['github']['user'], conf['github']['auth'], conf['github']['eventID']);
