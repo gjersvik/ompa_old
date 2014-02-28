@@ -6,7 +6,7 @@ class Task extends Model{
   
   Task();
 
-  factory Task.formJson(json){
+  factory Task.fromJson(json){
     if(json is String){
       json = JSON.decode(json);
     }
@@ -18,7 +18,7 @@ class Task extends Model{
     return task;
   }
   
-  factory Task.formDb(Map doc){
+  factory Task.fromDb(Map doc){
     var task = new Task();
     task.name = doc['name'];
     task._id = doc['_id'];

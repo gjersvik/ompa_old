@@ -8,7 +8,7 @@ class Success extends Model{
   
   Success();
 
-  factory Success.formJson(json){
+  factory Success.fromJson(json){
     if(json is String){
       json = JSON.decode(json);
     }
@@ -19,7 +19,7 @@ class Success extends Model{
     return success;
   }
   
-  factory Success.formDb(Map data){
+  factory Success.fromDb(Map data){
     var success = new Success();
     success._id = data['_id'];
     success.time = data['time'];

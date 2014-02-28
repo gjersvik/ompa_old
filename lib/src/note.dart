@@ -6,7 +6,7 @@ class Note extends Model{
   
   Note();
 
-  factory Note.formJson(json){
+  factory Note.fromJson(json){
     if(json is String){
       json = JSON.decode(json);
     }
@@ -16,7 +16,7 @@ class Note extends Model{
     return model;
   }
   
-  factory Note.formDb(Map data){
+  factory Note.fromDb(Map data){
     var model = new Note();
     model.name = data['_id'];
     model.text = data['text'];

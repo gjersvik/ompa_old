@@ -7,7 +7,7 @@ class SuccessServer{
   final ServerAuth _auth;
   SuccessServer(this._rest, this._db, this._auth){
     _rest.onPut('success/add', _auth.handlerBody((HttpRequest request, params, body) {
-      return save(new Success.formJson(body)).then((Success success){
+      return save(new Success.fromJson(body)).then((Success success){
         request.response..statusCode = 200
             ..write(success.toString());
       });
@@ -34,6 +34,6 @@ class SuccessServer{
     var start = new DateTime.utc(day.year,day.month,day.day);
     var end = new DateTime.utc(day.year,day.month,day.day + 1);
     return _db.find(where.inRange('time', start, end)).toList()
-        .then((list) => list.map((s)=> new Success.formDb(s)).toList());
+        .then((list) => list.map((s)=> new Success.fromDb(s)).toList());
   }
 }
