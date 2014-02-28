@@ -1,6 +1,6 @@
 part of ompa;
 
-class NoteServer extends Server{
+class NoteServer extends Handler{
   String name = 'note';
   
   final NoteService _service;
