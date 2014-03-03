@@ -2,12 +2,12 @@ part of ompa_html;
 
 class SuccessController{
   static const DAY = const Duration(days:1);
-  final Server _server;
+  final SuccessService _service;
   final Panels _panels;
   
   DateTime date = new DateTime.now().toUtc();
   SuccessPanel _success = new SuccessPanel();
-  SuccessController(this._server, this._panels){
+  SuccessController(this._service, this._panels){
     _panels.add(_success);
     _success.onAdd.listen(add);
     _success.onNext.listen(next);
@@ -18,7 +18,7 @@ class SuccessController{
   add(String desc){
     var success = new Success();
     success.desc = desc;
-    _server.putJson('success/add',success).then((_) => getDay(date));
+    _service.save(success).then((_) => getDay(date));
   }
   
   next([ _ ]){
@@ -32,8 +32,6 @@ class SuccessController{
   }
   
   getDay(DateTime day){
-    return _server.getJson('success/${day.year}/${day.month}/${day.day}')
-        .then((List data) => data.map((d)=> new Success.fromJson(d)).toList())
-        .then((data) => _success.setData(date, data));
+    return _service.getDay(day).then((data) => _success.setData(date, data));
   }
 }

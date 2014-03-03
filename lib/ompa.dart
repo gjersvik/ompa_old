@@ -11,4 +11,5 @@ part 'src/model.dart';
 part 'src/note.dart';
 part 'src/note_service.dart';
 part 'src/success.dart';
+part 'src/success_service.dart';
 part 'src/task.dart';
