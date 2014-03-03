@@ -5,6 +5,7 @@ dependencies:
   browser: any
   bson: any
   crypto: any
+  di: any
   http_utils: any
   intl: any
   mongo_dart: any
