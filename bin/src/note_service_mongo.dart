@@ -3,7 +3,7 @@ part of ompa;
 class NoteServiceMongo extends NoteService{
   DbCollection _db;
   NoteServiceMongo(Db db){
-    _db = db.collection('node');
+    _db = db.collection('note');
   }
   
   Future<Note> get(String name) => _db.findOne({'_id': name}).then(_toNote);
