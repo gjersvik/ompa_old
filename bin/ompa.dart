@@ -30,6 +30,7 @@ class OmpaModule extends Module{
     type(Server);
     type(NoteServer);
     type(NoteService, implementedBy: NoteServiceMongo);
+    type(SuccessServer);
   }
 }
 
@@ -45,9 +46,8 @@ main(List<String> args){
     var inject = new DynamicInjector(modules:[module]);
     
     Server server = inject.get(Server);
-    var success = new SuccessServer(db.collection('success'));
     server.addHandler(inject.get(NoteServer));
-    server.addHandler(success);
+    server.addHandler(inject.get(SuccessServer));
     
     if(conf.containsKey('github')){
       var github = new GitHub(conf['github']['user'], conf['github']['auth'], conf['github']['eventID']);

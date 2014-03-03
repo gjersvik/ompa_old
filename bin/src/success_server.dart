@@ -3,8 +3,10 @@ part of ompa;
 class SuccessServer extends Handler{
   String name = 'success';
   
-  final DbCollection _db;
-  SuccessServer(this._db);
+  DbCollection _db;
+  SuccessServer(Db db){
+    _db = db.collection('success');
+  }
   
   Future save(Success success) => _db.insert(success.toDb()).then((_){
     return success;
