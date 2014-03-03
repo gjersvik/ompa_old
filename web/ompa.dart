@@ -15,6 +15,7 @@ part 'src/auth_controller.dart';
 part 'src/auth_service.dart';
 part 'src/panel.dart';
 part 'src/panels.dart';
+part 'src/route.dart';
 part 'src/new_note_panel.dart';
 part 'src/note_panel.dart';
 part 'src/note_controller.dart';
@@ -31,6 +32,9 @@ class OmpaModule extends Module{
     type(AuthController);
     type(AuthService);
     type(OmpaController);
+    value(RouteInitializerFn, ompaRouteInitializer);
+    factory(NgRoutingUsePushState,
+            (_) => new NgRoutingUsePushState.value(false));
     type(SuccessService, implementedBy: SuccessServiceRest);
     type(Server);
   }
