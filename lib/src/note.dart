@@ -11,7 +11,7 @@ class Note extends Model{
       json = JSON.decode(json);
     }
     var model = new Note();
-    model.name = DateTime.parse(json['name']);
+    model.name = json['name'];
     model.text = json['text'];
     return model;
   }

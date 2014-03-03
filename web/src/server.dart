@@ -11,7 +11,8 @@ class Server{
   Future<String> put(String path, String body) => _send(path, 'PUT', body);
   Future<Object> putJson(String path, data) => 
       put(path, JSON.encode(data)).then(JSON.decode);
-  Future<String> delete(String path) => _send(path, 'DELETE');
+  Future<String> delete(String path, [String body]) =>
+      _send(path, 'DELETE', body);
   
   Future<String> _send(String path, String method, [String body]){
     path = path.replaceAll(' ', '_');

@@ -13,7 +13,6 @@ part 'src/github.dart';
 part 'src/handler.dart';
 part 'src/note_server.dart';
 part 'src/note_service_mongo.dart';
-part 'src/rest.dart';
 part 'src/server.dart';
 part 'src/success_server.dart';
 

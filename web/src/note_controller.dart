@@ -19,14 +19,20 @@ class NoteController{
   }
   
   save(NotePanel note){
-    _server.put('note/${note.title}', note.note)
+    var n =  new Note();
+    n.name = note.title;
+    n.text = note.note;
+    _server.put('note/${note.title}', n.toString())
       .then((_){
         note.saveDone();
       });
   }
   
   delete(NotePanel note){
-    _server.delete('note/${note.title}')
+    var n =  new Note();
+        n.name = note.title;
+        n.text = note.note;
+    _server.delete('note', n.toString())
       .then((_){
         _panels.remove(note);
       });
