@@ -5,15 +5,15 @@ class Server{
   
   Map _config;
   Map<String,Handler> _handlers = {};
+  Server(this._config){
+    _auth = new Auth.fromBase64(_config['httpkey']);
+  }
   
   addHandler(Handler hand){
     _handlers[hand.name] = hand;
   }
   
-  setAuth(Auth auth) => _auth = auth;
-  
-  Future start(Map config){
-    _config = config;
+  Future start(){
     return HttpServer.bind("0.0.0.0", 8080).then((HttpServer server){
       server.listen((HttpRequest req){
         return getBody(req)

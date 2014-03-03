@@ -26,7 +26,9 @@ Future<Map> getConfig(Db db){
 }
 
 class OmpaModule extends Module{
-  
+  OmpaModule(){
+    type(Server);
+  }
 }
 
 main(List<String> args){
@@ -38,9 +40,10 @@ main(List<String> args){
     return getConfig(db);
   }).then((Map conf){
     module.value(Map, conf);
+    var inject = new DynamicInjector(modules:[module]);
     
-    Server server = new Server();
-    server.setAuth(new Auth.fromBase64(conf['httpkey']));
+    Server server = inject.get(Server);
+    
     var noteService = new NoteServiceMongo(db.collection('note'));
     var noteServer = new NoteServer(noteService);
     var success = new SuccessServer(db.collection('success'));
@@ -56,8 +59,7 @@ main(List<String> args){
       });
     }
     
-    return server.start(conf);
-    
+    return server.start();
   }).then((_){
     print('Ready');
   });
