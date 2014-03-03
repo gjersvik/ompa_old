@@ -30,7 +30,7 @@ button:hover{
 }
 
 .panels{
-  width: 67%;
+  width: 100%;
 }
 
 .panel{
@@ -121,12 +121,4 @@ button:hover{
   position: absolute;
   top:0;
   right:0;
-}
-
-.tasks{
-  position: absolute;
-  background-color: white;
-  width: 33%;
-  height: 100%;
-  right: 0;
 }

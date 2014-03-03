@@ -22,7 +22,6 @@ part 'src/ompa_controller.dart';
 part 'src/server.dart';
 part 'src/success_controller.dart';
 part 'src/success_panel.dart';
-part 'src/tasks.dart';
 
 String serverUri = 'http://api.ompa.olem.org:8080/';
 

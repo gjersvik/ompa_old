@@ -8,7 +8,6 @@ class OmpaController{
     _auth.onChange.first.then((auth){
       var success = new SuccessController(_in.get(Server),panels);
       var note = new NoteController(_in.get(Server), panels);
-      var tasks = new Tasks(document.body);
     });
   }
 }
