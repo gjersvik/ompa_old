@@ -28,6 +28,7 @@ Future<Map> getConfig(Db db){
 class OmpaModule extends Module{
   OmpaModule(){
     type(Server);
+    type(NoteService, implementedBy: NoteServiceMongo);
   }
 }
 
@@ -43,9 +44,7 @@ main(List<String> args){
     var inject = new DynamicInjector(modules:[module]);
     
     Server server = inject.get(Server);
-    
-    var noteService = new NoteServiceMongo(db.collection('note'));
-    var noteServer = new NoteServer(noteService);
+    var noteServer = new NoteServer(inject.get(NoteService));
     var success = new SuccessServer(db.collection('success'));
     server.addHandler(noteServer);
     server.addHandler(success);

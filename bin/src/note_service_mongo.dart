@@ -1,8 +1,10 @@
 part of ompa;
 
 class NoteServiceMongo extends NoteService{
-  final DbCollection _db;
-  NoteServiceMongo(this._db);
+  DbCollection _db;
+  NoteServiceMongo(Db db){
+    _db = db.collection('node');
+  }
   
   Future<Note> get(String name) => _db.findOne({'_id': name}).then(_toNote);
  
