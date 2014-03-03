@@ -35,8 +35,20 @@ class Server{
   
   request(HttpRequest req, String body){
     addHeaders(req);
+    if(req.method == "OPTIONS"){
+      req.response.statusCode = 204;
+      return null;
+    }
+    
     if(auth(req, body) == false){
-      return;
+      return null;
+    }
+    
+    var name = req.uri.pathSegments.first;
+    if(_handlers.containsKey(name)){
+      return _handlers[name].handleRequest(req, JSON.decode(body));
+    }else{
+      req.response.statusCode = 404;
     }
   }
   
@@ -58,11 +70,6 @@ class Server{
     }
     req.response.statusCode = 403;
     return false;
-  }
-  
-  
-  onOptions(request) {
-    request.response.statusCode = 204;
   }
   
 }
