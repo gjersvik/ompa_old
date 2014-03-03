@@ -27,6 +27,7 @@ Future<Map> getConfig(Db db){
 
 class OmpaModule extends Module{
   OmpaModule(){
+    type(GitHub);
     type(Server);
     type(NoteServer);
     type(NoteService, implementedBy: NoteServiceMongo);
@@ -49,14 +50,7 @@ main(List<String> args){
     server.addHandler(inject.get(NoteServer));
     server.addHandler(inject.get(SuccessServer));
     
-    if(conf.containsKey('github')){
-      var github = new GitHub(conf['github']['user'], conf['github']['auth'], conf['github']['eventID']);
-      github.onSuccess.listen(success.save);
-      github.onLastId.listen((String lastId){
-        conf['github']['eventID'] = lastId;
-        db.collection('config').save(conf);
-      });
-    }
+    inject.get(GitHub);
     
     return server.start();
   }).then((_){

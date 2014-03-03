@@ -1,25 +1,25 @@
 part of ompa;
 
 class GitHub {
-  Stream<Success> onSuccess;
-  Stream<String> onLastId;
-  
-  final String user;
-  final String _auth;
+  String user;
+  String _auth;
   var _client = new HttpClient();
   var _etag = null;
   Duration _poll =  new Duration(seconds: 60);
   var _lastId = '';
   
-  StreamController<Success> _success;
-  StreamController<String> _lastIdEvent;
-  GitHub(this.user, this._auth, [this._lastId]){
-    _client.userAgent = user;
-    _success = new StreamController();
-    onSuccess = _success.stream;
-    _lastIdEvent = new StreamController();
-    onLastId = _lastIdEvent.stream;
-    poolEvents();
+  Map _config;
+  SuccessServer _success;
+  Db _db;
+
+  GitHub(this._config, this._success, this._db){
+    if(_config.containsKey('github')){
+      user = _config['github']['user'];
+      _client.userAgent = user;
+      _auth = _config['github']['auth'];
+      _lastId = _config['github']['eventID'];
+      poolEvents();
+    }
   }
   
   poolEvents(){
@@ -34,7 +34,10 @@ class GitHub {
         _etag = res.headers.value('etag');
         _poll = new Duration(seconds: int.parse(res.headers.value('x-poll-interval')));
         return UTF8.decodeStream(res).then(parseEvent)
-            .then((_) => _lastIdEvent.add(_lastId));
+            .then((_){
+              _config['github']['eventID'] = _lastId;
+              _db.collection('config').save(_config);
+            });
       }
     }).whenComplete((){
       new Timer(_poll, poolEvents);
@@ -78,7 +81,7 @@ class GitHub {
           if(res.statusCode == 200){
             return UTF8.decodeStream(res).then(JSON.decode).then((Map commit){
               success.time = DateTime.parse(commit['commit']['author']['date']);
-              _success.add(success);
+              _success.save(success);
             });
           }
         });
