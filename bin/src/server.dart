@@ -5,22 +5,26 @@ class Server{
   
   Map _config;
   Map<String,Handler> _handlers = {};
-  Server(this._auth);
   
   addHandler(Handler hand){
     _handlers[hand.name] = hand;
   }
   
-  start(Map config){
-    HttpServer.bindSecure("0.0.0.0", 8080).then((HttpServer server){
+  setAuth(Auth auth) => _auth = auth;
+  
+  Future start(Map config){
+    _config = config;
+    return HttpServer.bind("0.0.0.0", 8080).then((HttpServer server){
       server.listen((HttpRequest req){
         return getBody(req)
             .then((String body) => request(req,body))
-            .catchError((e){
+            .catchError((e,stack){
               req.response
                   ..statusCode = 500
-                  ..write(e);
+                  ..write(e)
+                  ..write(stack);
               print(e);
+              print(stack);
             }).whenComplete(() => req.response.close());
       });
     });
@@ -46,7 +50,7 @@ class Server{
     
     var name = req.uri.pathSegments.first;
     if(_handlers.containsKey(name)){
-      return _handlers[name].handleRequest(req, JSON.decode(body));
+      return _handlers[name].handleRequest(req, decodeBody(body));
     }else{
       req.response.statusCode = 404;
     }
@@ -63,7 +67,7 @@ class Server{
   
   bool auth(HttpRequest req, String body){
     if(req.headers['Authorization'] != null){
-      var valid = _auth.validate(req.headers['Authorization'].first,
+      return _auth.validate(req.headers['Authorization'].first,
           path: req.uri.path,
           method: req.method,
           body: body);
@@ -72,4 +76,10 @@ class Server{
     return false;
   }
   
+  Object decodeBody(String body){
+    if(body == null || body == ''){
+      return null;
+    }
+    return JSON.decode(body);
+  }
 }

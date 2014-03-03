@@ -33,28 +33,29 @@ Future<Map> getConfig(Db db){
 main(List<String> args){
   Db db = null;
   Map conf = {};
-  Rest rest = null;
-  ServerAuth auth;
+  Server server = new Server();
+  
   getDb(args[0])
     .then((Db d)=> db = d)
     .then(getConfig)
     .then((Map c){
       conf = c;
-      auth = new ServerAuth(conf['httpkey']);
-      rest = new Rest(conf);
-      return rest.ready;
+      server.setAuth(new Auth.fromBase64(conf['httpkey']));
+      var noteService = new NoteServiceMongo(db.collection('note'));
+      var noteServer = new NoteServer(noteService);
+      server.addHandler(noteServer);
+      return server.start(conf);
     })
     .then((_){
-      var noteService = new NoteServiceMongo(db.collection('note'));
-      var noteServer = new NoteServer(rest.server, auth, noteService);
-      var success = new SuccessServer(rest.server,db.collection('success'),auth);
-      if(conf.containsKey('github')){
-        var github = new GitHub(conf['github']['user'], conf['github']['auth'], conf['github']['eventID']);
-        github.onSuccess.listen(success.save);
-        github.onLastId.listen((String lastId){
-          conf['github']['eventID'] = lastId;
-          db.collection('config').save(conf);
-        });
-      }
+      print('Ready');
+//      var success = new SuccessServer(rest.server,db.collection('success'),auth);
+//      if(conf.containsKey('github')){
+//        var github = new GitHub(conf['github']['user'], conf['github']['auth'], conf['github']['eventID']);
+//        github.onSuccess.listen(success.save);
+//        github.onLastId.listen((String lastId){
+//          conf['github']['eventID'] = lastId;
+//          db.collection('config').save(conf);
+//        });
+//      }
     });
 }
