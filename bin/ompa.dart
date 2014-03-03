@@ -42,19 +42,21 @@ main(List<String> args){
       server.setAuth(new Auth.fromBase64(conf['httpkey']));
       var noteService = new NoteServiceMongo(db.collection('note'));
       var noteServer = new NoteServer(noteService);
+      var success = new SuccessServer(db.collection('success'));
       server.addHandler(noteServer);
+      server.addHandler(success);
+      
+      if(conf.containsKey('github')){
+        var github = new GitHub(conf['github']['user'], conf['github']['auth'], conf['github']['eventID']);
+        github.onSuccess.listen(success.save);
+        github.onLastId.listen((String lastId){
+          conf['github']['eventID'] = lastId;
+          db.collection('config').save(conf);
+        });
+      }
+      
       return server.start(conf);
-    })
-    .then((_){
+    }).then((_){
       print('Ready');
-//      var success = new SuccessServer(rest.server,db.collection('success'),auth);
-//      if(conf.containsKey('github')){
-//        var github = new GitHub(conf['github']['user'], conf['github']['auth'], conf['github']['eventID']);
-//        github.onSuccess.listen(success.save);
-//        github.onLastId.listen((String lastId){
-//          conf['github']['eventID'] = lastId;
-//          db.collection('config').save(conf);
-//        });
-//      }
     });
 }
