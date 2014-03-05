@@ -22,7 +22,6 @@ part 'src/note_controller.dart';
 part 'src/ompa_controller.dart';
 part 'src/server.dart';
 part 'src/success_controller.dart';
-part 'src/success_panel.dart';
 part 'src/success_service_rest.dart';
 
 String serverUri = 'http://api.ompa.olem.org:8080/';
@@ -35,6 +34,7 @@ class OmpaModule extends Module{
     value(RouteInitializerFn, ompaRouteInitializer);
     factory(NgRoutingUsePushState,
             (_) => new NgRoutingUsePushState.value(false));
+    type(SuccessController);
     type(SuccessService, implementedBy: SuccessServiceRest);
     type(Server);
   }

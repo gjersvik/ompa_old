@@ -1,14 +1,16 @@
-<div class="success">
+<div class="success" ompa-success>
   <div class="top">
-    <button class="prev">&lt;</button>
-    <span>5. March 2014</span>
-    <button class="next">&gt;</button>
+    <button class="prev" ng-click="OmpaSuccess.prev()">&lt;</button>
+    <span>{{OmpaSuccess.date|date:"d. MMMM yyyy"}}</span>
+    <button class="next" ng-click="OmpaSuccess.next()">&gt;</button>
   </div>
   <div class="center">
-    <strong>08:54</strong> Some task.<br>
+    <span ng-repeat="success in OmpaSuccess.successes">
+      <strong>{{success.time|date:"hh:mm"}}</strong> {{success.desc}}<br>
+    </span>
   </div>
   <div class="bottom">
-  <input type="text">
-  <button>Add</button>
+    <input type="text" ng-model="OmpaSuccess.addBox">
+    <button ng-click="OmpaSuccess.add()">Add</button>
   </div>
 </div>

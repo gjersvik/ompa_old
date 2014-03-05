@@ -1,37 +1,37 @@
 part of ompa_html;
 
+@NgController( selector: '[ompa-success]', publishAs: 'OmpaSuccess')
 class SuccessController{
   static const DAY = const Duration(days:1);
-  final SuccessService _service;
-  final Panels _panels;
   
   DateTime date = new DateTime.now().toUtc();
-  SuccessPanel _success = new SuccessPanel();
-  SuccessController(this._service, this._panels){
-    _panels.add(_success);
-    _success.onAdd.listen(add);
-    _success.onNext.listen(next);
-    _success.onPrev.listen(prev);
+  List<Success> successes = [];
+  String addBox = '';
+  
+  final SuccessService _service;
+
+  SuccessController(this._service){
     getDay(date);
   }
   
-  add(String desc){
+  add(){
     var success = new Success();
-    success.desc = desc;
+    success.desc = addBox;
+    addBox = '';
     _service.save(success).then((_) => getDay(date));
   }
   
-  next([ _ ]){
+  next(){
     date = date.add(DAY);
     getDay(date);
   }
   
-  prev([ _ ]){
+  prev(){
     date = date.subtract(DAY);
     getDay(date);
   }
   
   getDay(DateTime day){
-    return _service.getDay(day).then((data) => _success.setData(date, data));
+    return _service.getDay(day).then((list) => successes = list);
   }
 }
