@@ -36,7 +36,7 @@ packages:
   html5lib:
     description: html5lib
     source: hosted
-    version: "0.9.1"
+    version: "0.9.2"
   http_utils:
     description: http_utils
     source: hosted
@@ -44,7 +44,7 @@ packages:
   intl:
     description: intl
     source: hosted
-    version: "0.9.6"
+    version: "0.9.7"
   logging:
     description: logging
     source: hosted
