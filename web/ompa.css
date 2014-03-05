@@ -104,11 +104,18 @@ button:hover{
 }
 
 .success{
+  position: relative;
   background-color: #4CAD73;
+  font-size: 18px;
+  line-height: 20px;
 }
 
 .success .center{
   overflow: auto;
+}
+
+.success .top{
+  text-align:center;
 }
 
 .success .prev{
