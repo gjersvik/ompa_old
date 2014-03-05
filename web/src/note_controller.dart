@@ -1,47 +1,33 @@
 part of ompa_html;
 
+@NgController( selector: '[ompa-note]', publishAs: 'OmpaNote')
 class NoteController{
   final Server _server;
-  final Panels _panels;
   
-  final NewNotePanel _newNote = new NewNotePanel();
+  String newNote = '';
+  List<Note> notes = [];
   
-  final TextInputElement _textbox = new TextInputElement();
-  final ButtonElement _create = new ButtonElement();
-  
-  NoteController(this._server, this._panels){
-    _newNote.onNewNote.listen((name) => newNote(name,''));
-    _panels.add(_newNote);
-    
-    _server.getJson('note').then((List notes){
-      notes.forEach((Map note) => newNote(note['name'],note['text']));
+  NoteController(this._server){
+    _server.getJson('note').then((List n){
+      notes = n.map((Map json) => new Note.fromJson(json)).toList();
     });
   }
   
-  save(NotePanel note){
-    var n =  new Note();
-    n.name = note.title;
-    n.text = note.note;
-    _server.put('note/${note.title}', n.toString())
+  save(Note note){
+    _server.put('note', note.toString());
+  }
+  
+  delete(Note note){
+    _server.delete('note', note.toString())
       .then((_){
-        note.saveDone();
+        notes.remove(note);
       });
   }
   
-  delete(NotePanel note){
-    var n =  new Note();
-        n.name = note.title;
-        n.text = note.note;
-    _server.delete('note', n.toString())
-      .then((_){
-        _panels.remove(note);
-      });
-  }
-  
-  newNote(name,note){
-    var panel = new NotePanel(name,note);
-    panel.onSave.listen(save);
-    panel.onDelete.listen(delete);
-    _panels.add(panel);
+  add(){
+    var note = new Note();
+    note.name = newNote;
+    notes.add(note);
+    newNote = null;
   }
 }

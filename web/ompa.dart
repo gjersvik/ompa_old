@@ -13,11 +13,7 @@ import 'package:ompa/ompa.dart';
 
 part 'src/auth_controller.dart';
 part 'src/auth_service.dart';
-part 'src/panel.dart';
-part 'src/panels.dart';
 part 'src/route.dart';
-part 'src/new_note_panel.dart';
-part 'src/note_panel.dart';
 part 'src/note_controller.dart';
 part 'src/ompa_controller.dart';
 part 'src/server.dart';
@@ -30,6 +26,7 @@ class OmpaModule extends Module{
   OmpaModule(){
     type(AuthController);
     type(AuthService);
+    type(NoteController);
     type(OmpaController);
     value(RouteInitializerFn, ompaRouteInitializer);
     factory(NgRoutingUsePushState,
