@@ -11,7 +11,10 @@ class NoteController{
     _service.getAll().then((List n) => notes = n);
   }
   
-  save(Note note) => _service.save(note);
+  save(Note note, int index){
+    note.sort = index;
+    _service.save(note);
+  }
   
   delete(Note note) => _service.remove(note).then(notes.remove);
   

@@ -9,7 +9,7 @@
     <div class="content note">
       <div class="top">{{note.name}}</div>
       <textarea class="center" ng-model="note.text"></textarea>
-      <button class="save" ng-click="OmpaNote.save(note)">Save</button>
+      <button class="save" ng-click="OmpaNote.save(note, $index)">Save</button>
       <button class="delete" ng-click="OmpaNote.delete(note)">Delete</button>
     </div>
   </div>
