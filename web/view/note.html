@@ -1,15 +1,13 @@
-<div class="panels" ompa-note>
-  <div class="panel">
-    <div class="content newNote">
-      <input type="text" ng-model="OmpaNote.newNote">
-      <button ng-click="OmpaNote.add()">Create new note</button>
-    </div>
-  </div>
-  <div class="panel" ng-repeat="note in OmpaNote.notes">
-    <div class="content note">
-      <div class="top">{{note.name}}</div>
-      <textarea class="center" ng-model="note.text"></textarea>
-      <button class="save" ng-click="OmpaNote.save(note, $index)">Save</button>
+<div ompa-note>
+  <input type="text" ng-model="OmpaNote.newNote">
+  <button ng-click="OmpaNote.add()">Create new note</button>
+  <div>
+    <div ng-repeat="note in OmpaNote.notes">
+      <strong contenteditable ng-model="note.name"></strong>
+      <pre contenteditable ng-model="note.text"></pre>
+      <button class="prev" ng-click="OmpaNote.prev(note)">&lt;</button>
+      <button class="next" ng-click="OmpaNote.next(note)">&gt;</button>
+      <button class="save" ng-click="OmpaNote.save(note)">Save</button>
       <button class="delete" ng-click="OmpaNote.delete(note)">Delete</button>
     </div>
   </div>
