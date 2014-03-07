@@ -2,7 +2,7 @@ part of ompa_common;
 
 class Task extends Model{
   String name = '';
-  ObjectId _id;
+  ObjectId id = new ObjectId();
   
   Task();
 
@@ -12,32 +12,28 @@ class Task extends Model{
     }
     var task = new Task();
     task.name = json['name'];
-    if(json['_id'] != null){
-      task._id = ObjectId.parse(json['_id']);
-    }
+    task.id = new ObjectId.fromHexString(json['id']);
     return task;
   }
   
-  factory Task.fromDb(Map doc){
+  factory Task.fromDb(Map data){
     var task = new Task();
-    task.name = doc['name'];
-    task._id = doc['_id'];
+    task.name = data['name'];
+    task.id = data['_id'];
     return task;
   }
   
   Map toJson(){
-    var json = {'name' : name};
-    if(_id != null){
-      json['_id'] = _id.toHexString();
-    }
-    return json;
+    return{
+      'id': id.toHexString(),
+      'name': name
+    };
   }
   
   Map toDb(){
-    var doc = {'name' : name};
-    if(_id != null){
-      doc['_id'] = _id;
-    }
-    return doc;
+    return {
+      '_id': id,
+      'name': name
+    };
   }
 }
