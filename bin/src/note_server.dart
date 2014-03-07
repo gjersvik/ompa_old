@@ -21,8 +21,7 @@ class NoteServer extends Handler{
   }
   
   Future<HttpRequest> get(HttpRequest req) {
-    return _service.getAll().toList()
-        .then((notes){
+    return _service.getAll().then((notes){
           req.response..statusCode = 200
               ..write(JSON.encode(notes));
         });
