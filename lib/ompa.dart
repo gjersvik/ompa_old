@@ -13,3 +13,4 @@ part 'src/note_service.dart';
 part 'src/success.dart';
 part 'src/success_service.dart';
 part 'src/task.dart';
+part 'src/task_service.dart';
