@@ -23,12 +23,8 @@ class Note extends Model{
   
   factory Note.fromDb(Map data){
     var model = new Note();
-    if(data.containsKey('name')){
-      model.id = data['_id'];
-      model.name = data['name'];
-    }else{
-      model.name = data['_id'];
-    }
+    model.id = data['_id'];
+    model.name = data['name'];
     model.text = data['text'];
     if(data.containsKey('sort')){
       model.sort = data['sort'];
