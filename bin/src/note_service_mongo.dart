@@ -5,8 +5,6 @@ class NoteServiceMongo extends NoteService{
   NoteServiceMongo(Db db){
     _db = db.collection('note');
   }
-  
-  Future<Note> get(String name) => _db.findOne({'name': name}).then(_toNote);
  
   Future<List<Note>> getAll() => _db.find().stream.map(_toNote).toList();
   
