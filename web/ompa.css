@@ -29,80 +29,6 @@ button:hover{
   background-color: #FF0000;
 }
 
-.panels{
-  width: 100%;
-}
-
-.panel{
-  float: left;
-  width:200px;
-  height:200px;
-  margin: 5px;
-}
-
-.content{
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.content .top{
-  position: absolute;
-  width: 100%;
-  height: 20px;
-  font-size: 18px;
-  line-height: 20px;
-  font-weight: bold;
-  text-align:center;
-}
-
-.content .center{
-  position: absolute;
-  width: 100%;
-  top: 20px;
-  bottom: 20px;
-}
-
-.content .bottom{
-  position: absolute;
-  width: 100%;
-  height: 20px;
-  bottom: 0;
-  font-size: 18px;
-  line-height: 20px;
-}
-
-.newNote{
-  background-color: #A8BCFF;
-  text-align:center;
-}
-
-.newNote input{
-  margin-top: 35%;
-}
-
-.note{
-  background-color: #E4FF8B;
-}
-
-.note textarea{
-  background-color: transparent;
-  box-sizing: border-box;
-  resize: none;
-  border: none;
-}
-
-.note button{
-  position: absolute;
-  bottom: 0px;
-  height: 20px;
-  width: 50%;
-}
-
-.note button.delete{
-  right:0;
-}
-
 .success{
   position: relative;
   background-color: #4CAD73;
@@ -129,3 +55,15 @@ button:hover{
   top:0;
   right:0;
 }
+
+.notes{
+  vertical-align: top;
+}
+
+.note{
+  margin: 10px;
+  background-color: #E4FF8B;
+  display: inline-block;
+  vertical-align: top;
+}
+
