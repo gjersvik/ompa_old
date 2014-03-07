@@ -4,6 +4,7 @@ part of ompa_html;
 class TaskController{
   List<Task> tasks = [];
   String newTask = '';
+  String newTasks = '';
   
   TaskService _service;
   TaskController(this._service){
@@ -16,6 +17,15 @@ class TaskController{
     newTask = '';
     tasks.add(task);
     _service.save(task);
+  }
+  
+  addMany(){
+    newTasks.split('\n').forEach((String name){
+      var task = new Task()..name = name;
+      tasks.add(task);
+      _service.save(task);
+    });
+    newTasks = '';
   }
   
   remove(Task task){
