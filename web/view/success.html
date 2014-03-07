@@ -6,7 +6,7 @@
   </div>
   <div class="center">
     <span ng-repeat="success in OmpaSuccess.successes">
-      <strong>{{success.time|date:"hh:mm"}}</strong> {{success.desc}}<br>
+      <strong>{{success.time.toLocal()|date:"HH:mm"}}</strong> {{success.desc}}<br>
     </span>
   </div>
   <div class="bottom">
