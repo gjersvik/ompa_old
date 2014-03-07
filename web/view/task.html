@@ -1,6 +1,10 @@
 <div ompa-task>
   <ul>
-    <li ng-repeat="task in OmpaTask.tasks">{{task.name}}</li>
+    <li ng-repeat="task in OmpaTask.tasks">
+      <input type="checkbox" ng-click="OmpaTask.complete(task)">
+      {{task.name}}
+      <button ng-click="OmpaTask.remove(task)">X</button>
+    </li>
   </ul>
   <input type="text" ng-model="OmpaTask.newTask">
   <button ng-click="OmpaTask.add()">New task</button>
