@@ -6,7 +6,7 @@ class NoteServiceMongo extends NoteService{
     _db = db.collection('note');
   }
   
-  Future<Note> get(String name) => _db.findOne({'_id': name}).then(_toNote);
+  Future<Note> get(String name) => _db.findOne({'name': name}).then(_toNote);
  
   Future<List<Note>> getAll() => _db.find().stream.map(_toNote).toList();
   
@@ -15,7 +15,7 @@ class NoteServiceMongo extends NoteService{
         .then((_) => note);
   }
   
-  Future remove(Note note) => _db.remove({'_id': note.name});
+  Future remove(Note note) => _db.remove({'_id': note.id});
   
   Note _toNote(Map data) => new Note.fromDb(data);
 }

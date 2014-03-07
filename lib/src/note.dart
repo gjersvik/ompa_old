@@ -5,7 +5,7 @@ class Note extends Model{
   int sort = 0;
   String text = '';
   
-  ObjectId _id = new ObjectId();
+  ObjectId id = new ObjectId();
   
   Note();
 
@@ -16,7 +16,7 @@ class Note extends Model{
     var model = new Note();
     model.name = json['name'];
     model.text = json['text'];
-    model._id = new ObjectId.fromHexString(json['_id']);
+    model.id = new ObjectId.fromHexString(json['id']);
     model.sort = json['sort']; 
     return model;
   }
@@ -24,7 +24,7 @@ class Note extends Model{
   factory Note.fromDb(Map data){
     var model = new Note();
     if(data.containsKey('name')){
-      model._id = data['_id'];
+      model.id = data['_id'];
       model.name = data['name'];
     }else{
       model.name = data['_id'];
@@ -38,7 +38,7 @@ class Note extends Model{
   
   Map toJson(){
     return {
-      '_id': _id.toHexString(),
+      'id': id.toHexString(),
       'name': name,
       'sort': sort,
       'text': text
@@ -47,7 +47,7 @@ class Note extends Model{
   
   Map toDb(){
     return {
-      '_id': _id,
+      '_id': id,
       'name': name,
       'sort': sort,
       'text': text
