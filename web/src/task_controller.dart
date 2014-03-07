@@ -4,21 +4,25 @@ part of ompa_html;
 class TaskController{
   List<Task> tasks = [];
   String newTask = '';
-
-  TaskController(){}
+  
+  TaskService _service;
+  TaskController(this._service){
+    _service.getAll().then((t) =>tasks = t);
+  }
   
   add(){
     var task = new Task();
     task.name = newTask;
     newTask = '';
     tasks.add(task);
+    _service.save(task);
   }
   
   remove(Task task){
-    tasks.remove(task);
+    _service.remove(task).then(tasks.remove);
   }
   
   complete(Task task){
-    tasks.remove(task);
+    _service.complete(task).then(tasks.remove);
   }
 }

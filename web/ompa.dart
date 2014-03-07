@@ -21,6 +21,7 @@ part 'src/server.dart';
 part 'src/success_controller.dart';
 part 'src/success_service_rest.dart';
 part 'src/task_controller.dart';
+part 'src/task_service_rest.dart';
 
 String serverUri = 'http://api.ompa.olem.org:8080/';
 
@@ -38,6 +39,7 @@ class OmpaModule extends Module{
     type(SuccessController);
     type(SuccessService, implementedBy: SuccessServiceRest);
     type(TaskController);
+    type(TaskService, implementedBy: TaskServiceRest);
   }
 }
 

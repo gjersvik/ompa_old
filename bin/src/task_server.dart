@@ -28,7 +28,8 @@ class TaskServer extends Handler{
   }
   
   Future<HttpRequest> put(HttpRequest req, Map json) {
-    if(req.uri.pathSegments[1] == 'complete'){
+    if(req.uri.pathSegments.length == 2 
+        && req.uri.pathSegments[1] == 'complete'){
       return _service.complete(new Task.fromJson(json))
           .then((_) => req.response.statusCode = 204);
     }
