@@ -9,7 +9,7 @@ class TaskServiceMongo extends TaskService{
   }
  
   Future<List<Task>> getAll() => _db.find(where.sortBy('name'))
-      .stream.map((json) => new Task.fromJson(json)).toList();
+      .stream.map((json) => new Task.fromDb(json)).toList();
   
   Future<Task> save(Task task) {
     return _db.update({'_id': task.id}, task.toDb(), upsert: true)

@@ -24,7 +24,7 @@ class Task extends Model{
   }
   
   Map toJson(){
-    return{
+    return {
       'id': id.toHexString(),
       'name': name
     };
