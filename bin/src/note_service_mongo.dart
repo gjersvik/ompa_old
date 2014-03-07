@@ -6,7 +6,7 @@ class NoteServiceMongo extends NoteService{
     _db = db.collection('note');
   }
  
-  Future<List<Note>> getAll() => _db.find().stream.map(_toNote).toList();
+  Future<List<Note>> getAll() => _db.find(where.sortBy('sort')).stream.map(_toNote).toList();
   
   Future<Note> save(Note note) {
     return _db.update({'_id': note.id}, note.toDb(), upsert: true)
