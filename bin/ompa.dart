@@ -16,6 +16,7 @@ part 'src/note_server.dart';
 part 'src/note_service_mongo.dart';
 part 'src/server.dart';
 part 'src/success_server.dart';
+part 'src/task_server.dart';
 part 'src/task_service_mongo.dart';
 
 Future<Map> getConfig(Db db){
@@ -33,6 +34,7 @@ class OmpaModule extends Module{
     type(NoteServer);
     type(NoteService, implementedBy: NoteServiceMongo);
     type(SuccessServer);
+    type(TaskServer);
     type(TaskService, implementedBy: TaskServiceMongo);
   }
 }
@@ -51,6 +53,7 @@ main(List<String> args){
     Server server = inject.get(Server);
     server.addHandler(inject.get(NoteServer));
     server.addHandler(inject.get(SuccessServer));
+    server.addHandler(inject.get(TaskServer));
     
     inject.get(GitHub);
     
