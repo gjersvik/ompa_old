@@ -16,6 +16,7 @@ part 'src/note_server.dart';
 part 'src/note_service_mongo.dart';
 part 'src/server.dart';
 part 'src/success_server.dart';
+part 'src/task_service_mongo.dart';
 
 Future<Map> getConfig(Db db){
   if(Platform.isLinux){
@@ -32,6 +33,7 @@ class OmpaModule extends Module{
     type(NoteServer);
     type(NoteService, implementedBy: NoteServiceMongo);
     type(SuccessServer);
+    type(TaskService, implementedBy: TaskServiceMongo);
   }
 }
 
