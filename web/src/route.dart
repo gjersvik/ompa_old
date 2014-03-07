@@ -7,6 +7,9 @@ void ompaRouteInitializer(Router router, ViewFactory views) {
         view: 'view/success.html'),
     'note': ngRoute(
         path: '/note',
-        view: 'view/note.html')
+        view: 'view/note.html'),
+    'task': ngRoute(
+        path: '/task',
+        view: 'view/task.html')
   });
 }
