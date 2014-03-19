@@ -12,6 +12,7 @@ import 'package:ompa/ompa.dart';
 
 part 'src/github.dart';
 part 'src/handler.dart';
+part 'src/mongo_utils.dart';
 part 'src/note_server.dart';
 part 'src/note_service_mongo.dart';
 part 'src/server.dart';
