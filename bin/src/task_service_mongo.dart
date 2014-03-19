@@ -25,6 +25,9 @@ class TaskServiceMongo extends TaskService{
   Future<Task> complete(Task task) {
     var success = new Success();
     success.desc = task.name;
-    return remove(task).then((_){_success.save(success);});
+    return remove(task).then((task){
+      _success.save(success);
+      return task;
+    });
   }
 }

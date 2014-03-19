@@ -23,7 +23,7 @@ class TaskServer extends Handler{
   Future<HttpRequest> get(HttpRequest req) {
     return _service.getAll().then((tasks){
           req.response..statusCode = 200
-              ..write(JSON.encode(tasks));
+              ..write(JSON.encode(tasks, toEncodable:(t) => t.toMap()));
         });
   }
   
@@ -32,16 +32,16 @@ class TaskServer extends Handler{
         && req.uri.pathSegments[1] == 'complete'){
       return _service.complete(new Task.fromMap(json))
           .then((task) => req.response..statusCode = 200
-            ..write(JSON.encode(task)));
+            ..write(JSON.encode(task.toMap())));
     }
     return _service.save(new Task.fromMap(json))
         .then((task) => req.response..statusCode = 200
-          ..write(JSON.encode(task)));
+          ..write(JSON.encode(task.toMap())));
   }
       
   Future<HttpRequest> delete(HttpRequest request, Map json) {
     return _service.remove(new Task.fromMap(json))
         .then((task) => request.response..statusCode = 200
-        ..write(JSON.encode(task)));
+        ..write(JSON.encode(task.toMap())));
   }
 }

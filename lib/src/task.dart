@@ -7,8 +7,8 @@ class Task{
   final String name;
   
   const Task({
-    id: '',
-    name: ''
+    String id: '',
+    String name: ''
   }):id = id,name = name;
   
   factory Task.fromMap(Map data){
