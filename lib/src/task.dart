@@ -1,38 +1,38 @@
 part of ompa_common;
 
-class Task extends Model{
-  String name = '';
-  ObjectId id = new ObjectId();
+class Task{
+  static const EMPTY = const Task();
   
-  Task();
-
-  factory Task.fromJson(json){
-    if(json is String){
-      json = JSON.decode(json);
-    }
-    var task = new Task();
-    task.name = json['name'];
-    task.id = new ObjectId.fromHexString(json['id']);
-    return task;
-  }
+  final String id;
+  final String name;
   
-  factory Task.fromDb(Map data){
-    var task = new Task();
-    task.name = data['name'];
-    task.id = data['_id'];
-    return task;
-  }
+  const Task({
+    id: '',
+    name: ''
+  }):id = id,name = name;
   
-  Map toJson(){
-    return {
-      'id': id.toHexString(),
-      'name': name
+  factory Task.fromMap(Map data){
+    var base = {
+      'id': '',
+      'name': ''
     };
+    base.addAll(data);
+    return new Task(
+      id: base['id'],
+      name: base['name']
+    );
   }
   
-  Map toDb(){
+  Task setName(String name){
+    return new Task(
+      id: id,
+      name: name
+    );
+  }
+  
+  Map toMap(){
     return {
-      '_id': id,
+      'id': id,
       'name': name
     };
   }
