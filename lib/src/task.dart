@@ -1,7 +1,7 @@
 part of ompa_common;
 
 class Task{
-  static const EMPTY = const Task();
+  static const Task EMPTY = const Task();
   
   final String id;
   final String name;

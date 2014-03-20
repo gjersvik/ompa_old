@@ -9,3 +9,5 @@ dependencies:
   http_utils: any
   intl: any
   mongo_dart: any
+dev_dependencies:
+  unittest: any
