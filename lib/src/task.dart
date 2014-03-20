@@ -23,6 +23,18 @@ class Task{
     );
   }
   
+  get hashCode => id.hashCode;
+  
+  bool operator ==(Task other){
+    if(identical(this,other)){
+      return true;
+    }
+    if(id != other.id){
+      return false;
+    }
+    return name == other.name;
+  }
+  
   Task setName(String name){
     return new Task(
       id: id,
