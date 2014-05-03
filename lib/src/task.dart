@@ -1,51 +1,14 @@
 part of ompa_common;
 
 class Task{
-  static const Task EMPTY = const Task();
+  Map _data;
+  Task([Map data = const{}]): _data = new Map.from(data);
   
-  final String id;
-  final String name;
+  String get id => _data['id'];
+  set id(String id) => _data['id'] = id;
   
-  const Task({
-    String id: '',
-    String name: ''
-  }):id = id,name = name;
+  String get name => _data['name'];
+  set name(String name) => _data['name'];
   
-  factory Task.fromMap(Map data){
-    var base = {
-      'id': '',
-      'name': ''
-    };
-    base.addAll(data);
-    return new Task(
-      id: base['id'],
-      name: base['name']
-    );
-  }
-  
-  get hashCode => id.hashCode;
-  
-  bool operator ==(Task other){
-    if(identical(this,other)){
-      return true;
-    }
-    if(id != other.id){
-      return false;
-    }
-    return name == other.name;
-  }
-  
-  Task setName(String name){
-    return new Task(
-      id: id,
-      name: name
-    );
-  }
-  
-  Map toMap(){
-    return {
-      'id': id,
-      'name': name
-    };
-  }
+  toMap() => _data;
 }

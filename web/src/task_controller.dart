@@ -12,7 +12,8 @@ class TaskController{
   }
   
   add(){
-    var task = new Task(name: newTask);
+    var task = new Task();
+    task.name = newTask;
     newTask = '';
     tasks.add(task);
     _service.save(task);
@@ -20,7 +21,8 @@ class TaskController{
   
   addMany(){
     newTasks.split('\n').forEach((String name){
-      var task = new Task(name: name);
+      var task = new Task();
+      task.name = name;
       tasks.add(task);
       _service.save(task);
     });

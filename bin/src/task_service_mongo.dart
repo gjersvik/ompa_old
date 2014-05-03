@@ -9,12 +9,12 @@ class TaskServiceMongo extends TaskService{
   }
  
   Future<List<Task>> getAll() => _db.find(where.sortBy('name'))
-      .stream.map(fromMongo).map((d) => new Task.fromMap(d)).toList();
+      .stream.map(fromMongo).map((d) => new Task(d)).toList();
   
   Future<Task> save(Task task) {
     var mongo = toMongo(task.toMap());
     return _db.update({'_id': mongo['_id']}, mongo, upsert: true)
-        .then((_) => new Task.fromMap(fromMongo(mongo)));
+        .then((_) => new Task(fromMongo(mongo)));
   }
   
   Future<Task> remove(Task task){

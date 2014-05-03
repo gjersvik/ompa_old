@@ -6,12 +6,12 @@ class TaskServiceRest extends TaskService{
 
   Future<Task> complete(Task task) {
     return _server.putJson('task/complete', task.toMap())
-        .then((data) => new Task.fromMap(data));
+        .then((data) => new Task(data));
   }
 
   Future<List<Task>> getAll() {
     return _server.getJson('task').then((List n){
-      return n.map((Map json) => new Task.fromMap(json)).toList();
+      return n.map((Map json) => new Task(json)).toList();
     });
   }
 
