@@ -1,14 +1,13 @@
 part of ompa_common;
 
-class Task{
-  Map _data;
-  Task([Map data = const{}]): _data = new Map.from(data);
+class Task extends Model2{
+  Task([Map data]): super(data);
   
-  String get id => _data['id'];
-  set id(String id) => _data['id'] = id;
+  String get id => json['id'];
+  set id(String id) => json['id'] = id;
   
-  String get name => _data['name'];
-  set name(String name) => _data['name'];
+  String get name => json['name'];
+  set name(String name) => json['name'];
   
-  toMap() => _data;
+  toMap() => json;
 }
