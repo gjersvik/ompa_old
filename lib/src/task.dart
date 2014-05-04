@@ -1,6 +1,10 @@
 part of ompa_common;
 
 class Task extends Model2{
+  final Map<String, dynamic> json = {
+    'name': ''
+  };
+  
   Task([Map data]): super(data);
   
   String get id => json['id'];
