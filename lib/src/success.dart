@@ -1,6 +1,6 @@
 part of ompa_common;
 
-class Success extends Model2{
+class Success extends Model{
   final Map json = {
     'desc': '',
     'time': new DateTime.now().toUtc().toString(),

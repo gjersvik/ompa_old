@@ -1,6 +1,6 @@
 part of ompa_common;
 
-class Note extends Model2{
+class Note extends Model{
   final json = {
     'name': '',
     'sort': 0,

@@ -1,6 +1,6 @@
 part of ompa_common;
 
-class Task extends Model2{
+class Task extends Model{
   final Map<String, dynamic> json = {
     'name': ''
   };
