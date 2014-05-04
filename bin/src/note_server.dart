@@ -28,12 +28,12 @@ class NoteServer extends Handler{
   }
   
   Future<HttpRequest> put(HttpRequest req, Map json) {
-    return _service.save(new Note.fromJson(json))
+    return _service.save(new Note(json))
         .then((_) => req.response.statusCode = 201);
   }
       
   Future<HttpRequest> delete(HttpRequest request, Map json) {
-    return _service.remove(new Note.fromJson(json))
+    return _service.remove(new Note(json))
         .then((_) => request.response.statusCode = 204);
   }
 }

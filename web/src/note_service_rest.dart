@@ -6,8 +6,8 @@ class NoteServiceRest extends NoteService{
 
   Future<List<Note>> getAll() {
     return _server.getJson('note').then((List n){
-          return n.map((Map json) => new Note.fromJson(json)).toList();
-        });
+      return n.map((Map json) => new Note(json)).toList();
+    });
   }
 
   Future<Note> remove(Note note) {

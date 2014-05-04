@@ -1,52 +1,23 @@
 part of ompa_common;
 
-class Note extends Model{
-  String name = '';
-  int sort = 0;
-  String text = '';
+class Note extends Model2{
+  final json = {
+    'name': '',
+    'sort': 0,
+    'text': ''
+  };
   
-  ObjectId id = new ObjectId();
+  Note([Map data]):super(data);
   
-  Note();
-
-  factory Note.fromJson(json){
-    if(json is String){
-      json = JSON.decode(json);
-    }
-    var model = new Note();
-    model.name = json['name'];
-    model.text = json['text'];
-    model.id = new ObjectId.fromHexString(json['id']);
-    model.sort = json['sort']; 
-    return model;
-  }
+  String get id => json['id'];
+  set id(String id) => json['id'] = id;
   
-  factory Note.fromDb(Map data){
-    var model = new Note();
-    model.id = data['_id'];
-    model.name = data['name'];
-    model.text = data['text'];
-    if(data.containsKey('sort')){
-      model.sort = data['sort'];
-    }
-    return model;
-  }
+  String get name => json['name'];
+  set name(String name) => json['name'] = name;
   
-  Map toJson(){
-    return {
-      'id': id.toHexString(),
-      'name': name,
-      'sort': sort,
-      'text': text
-    };
-  }
+  int get sort => json['sort'];
+  set sort(int sort) => json['sort'] = sort;
   
-  Map toDb(){
-    return {
-      '_id': id,
-      'name': name,
-      'sort': sort,
-      'text': text
-    };
-  }
+  String get text => json['text'];
+  set text(String text) => json['text'] = text;
 }
