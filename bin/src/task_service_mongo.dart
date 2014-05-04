@@ -9,16 +9,16 @@ class TaskServiceMongo extends TaskService{
   }
  
   Future<List<Task>> getAll() => _db.find(where.sortBy('name'))
-      .stream.map(fromMongo).map((d) => new Task(d)).toList();
+      .stream.map(_fromDb).toList();
   
   Future<Task> save(Task task) {
-    var mongo = toMongo(task.toMap());
+    var mongo = _toDb(task);
     return _db.update({'_id': mongo['_id']}, mongo, upsert: true)
-        .then((_) => new Task(fromMongo(mongo)));
+        .then((_) => _fromDb(mongo));
   }
   
   Future<Task> remove(Task task){
-    var mongo = toMongo(task.toMap());
+    var mongo = _toDb(task);
     return _db.remove({'_id': mongo['_id']}).then((_) => task);
   }
 
@@ -29,5 +29,22 @@ class TaskServiceMongo extends TaskService{
       _success.save(success);
       return task;
     });
+  }
+  
+  Map _toDb(Task t){
+    var data = t.toJson();
+    data['startTime'] = DateTime.parse(data['startTime']);
+    if(data['endTime'] != null){
+      data['endTime'] = DateTime.parse(data['endTime']);
+    }
+    return toMongo(data);
+  }
+  
+  Task _fromDb(Map data){
+    data['startTime'] = data['startTime'].toString();
+    if(data['endTime'] != null){
+      data['endTime'] = data['endTime'].toString();
+    }
+    return new Task(fromMongo(data));
   }
 }
