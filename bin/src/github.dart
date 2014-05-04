@@ -9,7 +9,7 @@ class GitHub {
   var _lastId = '';
   
   Map _config;
-  SuccessServer _success;
+  SuccessService _success;
   Db _db;
 
   GitHub(this._config, this._success, this._db){

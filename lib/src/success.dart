@@ -1,47 +1,23 @@
 part of ompa_common;
 
-class Success extends Model{
-  String desc = '';
-  DateTime time = new DateTime.now();
-  Map<String,String> meta = {};
-  ObjectId _id = new ObjectId();
+class Success extends Model2{
+  final Map json = {
+    'desc': '',
+    'time': new DateTime.now().toUtc().toString(),
+    'meta': {}
+  };
   
-  Success();
-
-  factory Success.fromJson(json){
-    if(json is String){
-      json = JSON.decode(json);
-    }
-    var success = new Success();
-    success.time = DateTime.parse(json['time']);
-    success.desc = json['desc'];
-    success.meta = json['meta'];
-    return success;
-  }
+  Success([Map data]):super(data);
   
-  factory Success.fromDb(Map data){
-    var success = new Success();
-    success._id = data['_id'];
-    success.time = data['time'];
-    success.desc = data['desc'];
-    success.meta = data['meta'];
-    return success;
-  }
+  String get id => json['id'];
+  set id(String id) => json['id'] = id;
   
-  Map toJson(){
-    return {
-      'time': time.toUtc().toString(),
-      'desc': desc,
-      'meta': meta
-    };
-  }
+  String get desc => json['desc'];
+  set desc(String desc) => json['desc'] = desc;
   
-  Map toDb(){
-    return {
-      '_id': _id,
-      'time': time.toUtc(),
-      'desc': desc,
-      'meta': meta
-    };
-  }
+  DateTime get time => DateTime.parse(json['time']);
+  set time(DateTime time) => json['time'] = time.toUtc().toString();
+  
+  Map get meta => json['meta'];
+  set meta(Map meta) => json['meta'] = new Map.from(meta);
 }

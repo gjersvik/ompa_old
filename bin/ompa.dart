@@ -17,6 +17,7 @@ part 'src/note_server.dart';
 part 'src/note_service_mongo.dart';
 part 'src/server.dart';
 part 'src/success_server.dart';
+part 'src/success_service_mongo.dart';
 part 'src/task_server.dart';
 part 'src/task_service_mongo.dart';
 
@@ -35,6 +36,7 @@ class OmpaModule extends Module{
     type(NoteServer);
     type(NoteService, implementedBy: NoteServiceMongo);
     type(SuccessServer);
+    type(SuccessService, implementedBy: SuccessServiceMongo);
     type(TaskServer);
     type(TaskService, implementedBy: TaskServiceMongo);
   }

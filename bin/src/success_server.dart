@@ -3,21 +3,8 @@ part of ompa;
 class SuccessServer extends Handler{
   String name = 'success';
   
-  DbCollection _db;
-  SuccessServer(Db db){
-    _db = db.collection('success');
-  }
-  
-  Future save(Success success) => _db.insert(success.toDb()).then((_){
-    return success;
-  });
-  
-  Future<List<Success>> getDay(DateTime day){
-    var start = new DateTime.utc(day.year,day.month,day.day);
-    var end = new DateTime.utc(day.year,day.month,day.day + 1);
-    return _db.find(where.inRange('time', start, end)).toList()
-        .then((list) => list.map((s)=> new Success.fromDb(s)).toList());
-  }
+  SuccessService _service;
+  SuccessServer(this._service);
   
   Future<HttpRequest> handleRequest(HttpRequest req, Map json) {
     if(req.method == 'GET'){
@@ -37,14 +24,14 @@ class SuccessServer extends Handler{
         int.parse(path[2]),
         int.parse(path[3]));
     print(day);
-    return getDay(day).then((List<Success> list){
+    return _service.getDay(day).then((List<Success> list){
       req.response..statusCode = 200
           ..write(JSON.encode(list));
     });
   }
   
   Future<HttpRequest> put(HttpRequest req, Map json) {
-    return save(new Success.fromJson(json)).then((Success success){
+    return _service.save(new Success(json)).then((Success success){
       req.response..statusCode = 200
           ..write(success.toString());
     });

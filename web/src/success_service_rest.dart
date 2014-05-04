@@ -6,7 +6,7 @@ class SuccessServiceRest extends SuccessService{
   
   Future<List<Success>> getDay(DateTime day) {
     return _server.getJson('success/${day.year}/${day.month}/${day.day}')
-            .then((List data) => data.map((d)=> new Success.fromJson(d)).toList());
+            .then((List data) => data.map((d)=> new Success(d)).toList());
   }
 
   Future<Success> save(Success success) {

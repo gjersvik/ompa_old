@@ -2,7 +2,7 @@ part of ompa;
 
 class TaskServiceMongo extends TaskService{
   DbCollection _db;
-  SuccessServer _success;
+  SuccessService _success;
   
   TaskServiceMongo(Db db, this._success){
     _db = db.collection('task');
