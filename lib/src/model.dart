@@ -8,7 +8,7 @@ class Model {
     }
   }
   
-  Map<String,dynamic> toJson() => json;
+  Map<String,dynamic> toJson() => new Map.from(json);
   
   String toString() => JSON.encode(this);
 }
