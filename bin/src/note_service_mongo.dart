@@ -11,11 +11,15 @@ class NoteServiceMongo extends NoteService{
   }
   
   Future<Note> save(Note note) {
-    return _db.update({'_id': note.id}, _toDb(note), upsert: true)
-        .then((_) => note);
+    var data = _toDb(note);
+    return _db.update({'_id': data['_id']}, data, upsert: true)
+        .then((_) => _fromDb(data));
   }
   
-  Future remove(Note note) => _db.remove({'_id': note.id}).then((_) => note);
+  Future remove(Note note){
+    var id = _toDb(note)['_id'];
+    return _db.remove({'_id': id}).then((_) => note);
+  }
   
   Note _fromDb(Map data) => new Note(fromMongo(data));
   Map _toDb(Note note) => toMongo(note.toJson());

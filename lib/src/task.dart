@@ -13,7 +13,7 @@ class Task extends Model{
   set id(String id) => json['id'] = id;
   
   String get name => json['name'];
-  set name(String name) => json['name'];
+  set name(String name) => json['name'] = name;
   
   DateTime get startTime => DateTime.parse(json['startTime']);
   set startTime(DateTime time) => json['startTime'] = time.toUtc().toString();
