@@ -1,13 +1,12 @@
 part of ompa_common;
 
 class Auth{
-
+  static const SALT = '5Yc8GDdmKxlYpLnzcGBKpxZ0YU1rottDYGsWbDJrTK4WBsp2Hzd1sOSjAOLPdBfc';
   final List<int> _key;
   Auth(this._key);
   factory Auth.fromPassword(String password){
-    const salt = '5Yc8GDdmKxlYpLnzcGBKpxZ0YU1rottDYGsWbDJrTK4WBsp2Hzd1sOSjAOLPdBfc';
     var hash = new SHA256();
-    hash.add("$password$salt".codeUnits);
+    hash.add("$password$SALT".codeUnits);
     return new Auth(hash.close());
   }
 

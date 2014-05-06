@@ -22,11 +22,27 @@ part 'src/task_server.dart';
 part 'src/task_service_mongo.dart';
 
 Future<Map> getConfig(Db db){
-  if(Platform.isLinux){
-    return db.collection('config').findOne({'_id':'pro'});
-  }else{
-    return db.collection('config').findOne({'_id':'dev'});
+  var config = {
+    //base64(sha256('12345678' + AUTH.salt))
+    'httpkey': '/cEW+Br+78JmamC4tbkqXUf2LqNBAZvw3SV6dI63x/0=',
+    'origin': 'http://127.0.0.1:3030'
+  };
+  return db.collection('config').findOne({'_id':'pro'})
+    .then((data){
+      if(data != null){
+        config.addAll(data);
+      }
+      return config;
+    });
+}
+
+Future<Db> startDb(url){
+  if(url == null){
+    url = 'mongodb://127.0.0.1/ompa';
   }
+  
+  Db db = new Db(url);
+  return db.open().then((_) => db);
 }
 
 class OmpaModule extends Module{
@@ -45,8 +61,11 @@ class OmpaModule extends Module{
 main(List<String> args){
   Module module = new OmpaModule();
   
-  Db db = new Db(args[0]);
-  db.open().then((_){
+  var dburi = null;
+  if(args.isNotEmpty){
+    dburi = args[0];
+  }
+  startDb(dburi).then((Db db){
     module.value(Db, db);
     return getConfig(db);
   }).then((Map conf){
