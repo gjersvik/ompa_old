@@ -2,6 +2,7 @@ part of ompa_common;
 
 class Task extends Model{
   final Map<String, dynamic> json = {
+    'id': '',
     'name': '',
     'startTime': new DateTime.now().toUtc().toString(),
     'duration': 0,
