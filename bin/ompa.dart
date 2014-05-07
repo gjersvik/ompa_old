@@ -10,6 +10,7 @@ import 'package:http_utils/http_utils.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 import 'package:ompa/ompa.dart';
 
+part 'src/crud_mongo.dart';
 part 'src/github.dart';
 part 'src/handler.dart';
 part 'src/mongo_utils.dart';
