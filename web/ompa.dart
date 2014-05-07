@@ -6,6 +6,7 @@ library ompa_html;
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:collection';
 import 'dart:html';
 
 import 'package:angular/angular.dart';

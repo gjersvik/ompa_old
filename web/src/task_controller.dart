@@ -2,13 +2,14 @@ part of ompa_html;
 
 @NgController( selector: '[ompa-task]', publishAs: 'OmpaTask')
 class TaskController{
-  List<Task> tasks = [];
+  Set<Task> tasks;
   String newTask = '';
   String newTasks = '';
   
   TaskService _service;
   TaskController(this._service){
-    _service.getAll().then((t) =>tasks = t);
+    tasks = new SplayTreeSet(_compare);
+    _service.getAll().then((t) =>tasks.addAll(t));
   }
   
   add(){
@@ -35,5 +36,9 @@ class TaskController{
   
   complete(Task task){
     _service.complete(task).then((_) =>tasks.remove(task));
+  }
+  
+  _compare(Task a, Task b){
+    return a.name.compareTo(b.name);
   }
 }
