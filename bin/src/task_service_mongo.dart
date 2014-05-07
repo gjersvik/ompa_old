@@ -1,14 +1,16 @@
 part of ompa;
 
 class TaskServiceMongo extends TaskService{
-  DbCollection _db;
+  Crud _db;
   SuccessService _success;
   List<Task> _allTasks = [];
   Future _loaded;
   
   TaskServiceMongo(Db db, this._success){
-    _db = db.collection('task');
-    _loaded = _db.find().stream.map(_fromDb).toList().then(_allTasks.addAll);
+    _db = new CrudMongo(db.collection('task'));
+    _loaded = _db.readAll().then((list){
+      _allTasks.addAll(list.map((m) => new Task(m)));
+    });
   }
  
   Future<List<Task>> getAll() => _loaded.then((_) => _allTasks);
@@ -20,14 +22,16 @@ class TaskServiceMongo extends TaskService{
         from = _allTasks.firstWhere((t) => t.id == to.id);
         _allTasks.remove(from);
       }else{
-        to = _fromDb(_toDb(to));
+        to.id = _db.newId();
       }
       _allTasks.add(to);
       fireChange(from, to);
       
-      var mongo = _toDb(to);
-      // no return of future call on puproce database is backup.
-      _db.update({'_id': mongo['_id']}, mongo, upsert: true);
+      if(from == null){
+        _db.create(to.toJson());
+      }else{
+        _db.update(to.toJson());
+      }
       return to;
     });
   }
@@ -38,8 +42,7 @@ class TaskServiceMongo extends TaskService{
       _allTasks.remove(task);
       fireChange(task, null);
       
-      var id = _toDb(task)['_id'];
-      _db.remove({'_id': id});
+      _db.delete(task.toJson());
       return task;
     });
   }
@@ -51,22 +54,5 @@ class TaskServiceMongo extends TaskService{
       _success.save(success);
       return task;
     });
-  }
-  
-  Map _toDb(Task t){
-    var data = t.toJson();
-    data['startTime'] = DateTime.parse(data['startTime']);
-    if(data['endTime'] != null){
-      data['endTime'] = DateTime.parse(data['endTime']);
-    }
-    return toMongo(data);
-  }
-  
-  Task _fromDb(Map data){
-    data['startTime'] = data['startTime'].toString();
-    if(data['endTime'] != null){
-      data['endTime'] = data['endTime'].toString();
-    }
-    return new Task(fromMongo(data));
   }
 }

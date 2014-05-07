@@ -4,7 +4,7 @@ class CrudMongo extends Crud{
   DbCollection _db;
   CrudMongo(this._db);
   
-  String newId() => new ObjectId().toString();
+  String newId() => new ObjectId().toHexString();
   
   Future create(Map json) => _db.insert(_toDb(json));
   Future<List<Map>> readAll() => _db.find().stream.map(_fromDb).toList();
