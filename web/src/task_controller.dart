@@ -8,15 +8,23 @@ class TaskController{
   
   TaskService _service;
   TaskController(this._service){
-    tasks = new SplayTreeSet(_compare);
+    tasks = new SplayTreeSet<Task>(_compare, _valid);
     _service.getAll().then((t) =>tasks.addAll(t));
+    _service.onChange.listen((ChangeEvent event){
+      if(event.from != null){
+        var task = tasks.firstWhere((t) => t.id == event.from.id);
+        tasks.remove(task);
+      }
+      if(event.to != null){
+        tasks.add(event.to);
+      }
+    });
   }
   
   add(){
     var task = new Task();
     task.name = newTask;
     newTask = '';
-    tasks.add(task);
     _service.save(task);
   }
   
@@ -24,21 +32,21 @@ class TaskController{
     newTasks.split('\n').forEach((String name){
       var task = new Task();
       task.name = name;
-      tasks.add(task);
       _service.save(task);
     });
     newTasks = '';
   }
   
-  remove(Task task){
-    _service.remove(task).then((_) =>tasks.remove(task));
-  }
-  
-  complete(Task task){
-    _service.complete(task).then((_) =>tasks.remove(task));
-  }
+  remove(Task task) => _service.remove(task);
+  complete(Task task) => _service.complete(task);
   
   _compare(Task a, Task b){
-    return a.name.compareTo(b.name);
+    var comp = a.name.compareTo(b.name);
+    if(comp == 0){
+      return a.id.compareTo(b.id);
+    }
+    return comp;
   }
+  
+  _valid(task) => task is Task;
 }
