@@ -7,6 +7,7 @@ import 'package:crypto/crypto.dart';
 
 part 'src/auth.dart';
 part 'src/change_event.dart';
+part 'src/crud.dart';
 part 'src/model.dart';
 part 'src/note.dart';
 part 'src/note_service.dart';
