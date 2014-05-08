@@ -25,14 +25,14 @@ class TaskController{
     var task = new Task();
     task.name = newTask;
     newTask = '';
-    _service.save(task);
+    _service.create(task);
   }
   
   addMany(){
     newTasks.split('\n').forEach((String name){
       var task = new Task();
       task.name = name;
-      _service.save(task);
+      _service.create(task);
     });
     newTasks = '';
   }

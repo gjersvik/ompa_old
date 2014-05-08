@@ -33,23 +33,32 @@ class TaskServiceRest extends TaskService{
   }
 
   Future<Task> save(Task task) {
+    if(task.id.isEmpty){
+      return create(task);
+    }else{
+      return update(task);
+    }
+  }
+  
+  Future<Task> create(Task task){
+    return _loaded.then((_) {
+      return _server.putJson('task', task.toMap()).then((json){
+        var newTask = new Task(json);
+        _allTasks.add(newTask);
+        fireChange(null, newTask);
+        return newTask;
+      });
+    });
+  }
+  
+  Future<Task> update(Task task){
     return _loaded.then((_){
-      if(task.id.isEmpty){
-        // new task.
-        return _server.putJson('task', task.toMap()).then((json){
-          var newTask = new Task(json);
-          _allTasks.add(newTask);
-          fireChange(null, newTask);
-          return newTask;
-        });
-      }else{
-        var from = _allTasks.firstWhere((t) => t.id == task.id);
-        _allTasks.remove(from);
-        _allTasks.add(task);
-        fireChange(from, task);
-        _server.putJson('task', task.toJson());
-        return task;
-      }
+      var from = _allTasks.firstWhere((t) => t.id == task.id);
+      _allTasks.remove(from);
+      _allTasks.add(task);
+      fireChange(from, task);
+      _server.putJson('task', task.toJson());
+      return task;
     });
   }
 }
