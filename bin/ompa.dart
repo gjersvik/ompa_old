@@ -65,6 +65,8 @@ main(List<String> args){
   var dburi = null;
   if(args.isNotEmpty){
     dburi = args[0];
+  }else{
+    dburi = Platform.environment['MONGO_URI'];
   }
   startDb(dburi).then((Db db){
     module.value(Db, db);
