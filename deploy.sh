@@ -9,7 +9,7 @@ aws s3 sync ./build/web s3://ompa.olem.org --quiet --acl public-read
 
 echo "Create a server distrebution."
 mkdir ./ompa
-cp -r ./build/bin/* ./ompa
+cp -rP ./bin/* ./ompa
 zip -r ompa.zip ./ompa Dockerfile Dockerrun.aws.json
 
 echo "Upload distrebution."
