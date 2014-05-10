@@ -13,4 +13,4 @@ ADD . /src
 EXPOSE 8080
 
 WORKDIR /src/ompa
-RUN dart ompa.dart MONGO_URI
+CMD dart ompa.dart MONGO_URI
