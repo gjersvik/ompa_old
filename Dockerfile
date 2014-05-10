@@ -8,6 +8,9 @@ RUN unzip dartsdk-linux-x64-release.zip
 RUN mv dart-sdk /opt
 ENV PATH /opt/dart-sdk/bin:$PATH
 
-WORKDIR /ompa
-RUN dart ompa.dart MONGO_URI
+ADD . /src
+
 EXPOSE 8080
+
+WORKDIR /src/opma
+RUN dart ompa.dart MONGO_URI
