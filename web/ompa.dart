@@ -1,15 +1,13 @@
 library ompa_html;
 
-// Temporary fix the 3mb js size.
-//@MirrorsUsed(override: '*')
-//import 'dart:mirrors';
-
 import 'dart:async';
 import 'dart:convert';
 import 'dart:collection';
 import 'dart:html';
 
 import 'package:angular/angular.dart';
+import 'package:angular/application_factory.dart';
+
 import 'package:ompa/ompa.dart';
 
 part 'src/auth_controller.dart';
@@ -28,19 +26,19 @@ String serverUri = 'http://api.ompa.olem.org/';
 
 class OmpaModule extends Module{
   OmpaModule(){
-    type(AuthController);
-    type(AuthService);
-    type(NoteController);
-    type(NoteService, implementedBy: NoteServiceRest);
-    type(OmpaController);
-    value(RouteInitializerFn, ompaRouteInitializer);
-    factory(NgRoutingUsePushState,
-            (_) => new NgRoutingUsePushState.value(false));
-    type(Server);
-    type(SuccessController);
-    type(SuccessService, implementedBy: SuccessServiceRest);
-    type(TaskController);
-    type(TaskService, implementedBy: TaskServiceRest);
+    bind(AuthController);
+    bind(AuthService);
+    bind(NoteController);
+    bind(NoteService, toImplementation: NoteServiceRest);
+    bind(OmpaController);
+    bind(RouteInitializerFn, toValue: ompaRouteInitializer);
+    bind(NgRoutingUsePushState,
+        toFactory: (_) => new NgRoutingUsePushState.value(false));
+    bind(Server);
+    bind(SuccessController);
+    bind(SuccessService, toImplementation: SuccessServiceRest);
+    bind(TaskController);
+    bind(TaskService, toImplementation: TaskServiceRest);
   }
 }
 
@@ -48,5 +46,7 @@ main(){
   if(window.location.host == '127.0.0.1:3030'){
     serverUri = 'http://127.0.0.1:8080/';
   }
-  ngBootstrap(module: new OmpaModule());
+  applicationFactory()
+    .addModule(new OmpaModule())
+    .run();
 }

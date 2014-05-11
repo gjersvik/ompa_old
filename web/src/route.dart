@@ -1,6 +1,7 @@
 part of ompa_html;
 
-void ompaRouteInitializer(Router router, ViewFactory views) {
+@Injectable()
+void ompaRouteInitializer(Router router, RouteViewFactory views) {
   views.configure({
     'success': ngRoute(
         path: '/success',

@@ -1,6 +1,7 @@
 part of ompa_html;
 
-@NgController( selector: '[ompa-auth]', publishAs: 'OmpaAuth')
+@Controller( selector: '[ompa-auth]', publishAs: 'OmpaAuth')
+@Injectable()
 class AuthController{
   bool loggedIn = false;
   String key;

@@ -1,8 +1,9 @@
 part of ompa_html;
 
+@Injectable()
 class Server{
   
-  final AuthService _auth;
+ final AuthService _auth;
   
   Server(this._auth);
   

@@ -1,5 +1,6 @@
 part of ompa_html;
 
+@Injectable()
 class AuthService{
   Auth auth = null;
   Stream<Auth> onChange;

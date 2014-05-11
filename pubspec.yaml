@@ -11,3 +11,5 @@ dependencies:
   mongo_dart: any
 dev_dependencies:
   unittest: any
+transformers:
+- angular

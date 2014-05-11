@@ -1,6 +1,7 @@
 part of ompa_html;
 
-@NgController( selector: '[ompa-note]', publishAs: 'OmpaNote')
+@Controller( selector: '[ompa-note]', publishAs: 'OmpaNote')
+@Injectable()
 class NoteController{
   final NoteService _service;
   

@@ -1,6 +1,7 @@
 part of ompa_html;
 
-@NgController( selector: '[ompa-success]', publishAs: 'OmpaSuccess')
+@Controller( selector: '[ompa-success]', publishAs: 'OmpaSuccess')
+@Injectable()
 class SuccessController{
   static const DAY = const Duration(days:1);
   

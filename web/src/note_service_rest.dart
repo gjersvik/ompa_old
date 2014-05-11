@@ -1,5 +1,6 @@
 part of ompa_html;
 
+@Injectable()
 class NoteServiceRest extends NoteService{
   Server _server;
   NoteServiceRest(this._server);

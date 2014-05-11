@@ -1,5 +1,6 @@
 part of ompa_html;
 
+@Injectable()
 class TaskServiceRest extends TaskService{
   Server _server;
   List<Task> _allTasks = [];

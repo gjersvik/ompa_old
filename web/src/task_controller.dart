@@ -1,6 +1,7 @@
 part of ompa_html;
 
-@NgController( selector: '[ompa-task]', publishAs: 'OmpaTask')
+@Controller( selector: '[ompa-task]', publishAs: 'OmpaTask')
+@Injectable()
 class TaskController{
   Set<Task> tasks;
   String newTask = '';

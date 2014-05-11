@@ -1,5 +1,6 @@
 part of ompa_html;
 
+@Injectable()
 class SuccessServiceRest extends SuccessService{
   Server _server;
   SuccessServiceRest(this._server);
