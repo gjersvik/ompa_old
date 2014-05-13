@@ -7,7 +7,9 @@ class Success extends Model{
     'meta': {}
   };
   
-  Success([Map data]):super(data);
+  Success([Map data]):super(data){
+    _time = DateTime.parse(json['time']);
+  }
   
   String get id => json['id'];
   set id(String id) => json['id'] = id;
@@ -15,9 +17,14 @@ class Success extends Model{
   String get desc => json['desc'];
   set desc(String desc) => json['desc'] = desc;
   
-  DateTime get time => DateTime.parse(json['time']);
-  set time(DateTime time) => json['time'] = time.toUtc().toString();
+  DateTime get time => _time;
+  set time(DateTime time){
+    _time = time.toUtc();
+    json['time'] = _time.toString();
+  }
   
   Map get meta => json['meta'];
   set meta(Map meta) => json['meta'] = new Map.from(meta);
+  
+  DateTime _time;
 }
