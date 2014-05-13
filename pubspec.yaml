@@ -12,4 +12,8 @@ dependencies:
 dev_dependencies:
   unittest: any
 transformers:
-- angular
+- angular:
+    html_files:
+    - web/view/note.html
+    - web/view/success.html
+    - web/view/task.html
