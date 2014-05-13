@@ -1,13 +1,32 @@
 <div ompa-task>
-  <ul>
-    <li ng-repeat="task in OmpaTask.tasks">
-      <input type="checkbox" ng-click="OmpaTask.complete(task)">
-      {{task.name}}
-      <button ng-click="OmpaTask.remove(task)">X</button>
-    </li>
-  </ul>
-  <input type="text" ng-model="OmpaTask.newTask">
-  <button ng-click="OmpaTask.add()">New task</button><br>
-  <textarea ng-model="OmpaTask.newTasks"></textarea><br>
-  <button ng-click="OmpaTask.addMany()">New tasks</button>
+  <div class="appointment"></div>
+  <div class="do-now"></div>
+  <div class="form">
+    <input type="text" ng-model="OmpaTask.newTask">
+    <button ng-click="OmpaTask.add()">New task</button><br>
+    <textarea ng-model="OmpaTask.newTasks"></textarea><br>
+    <button ng-click="OmpaTask.addMany()">New tasks</button>
+  </div>
+  <table class='alltask'>
+    <thead>
+      <tr>
+        <td></td>
+        <td></td>
+        <td>Name.</td>
+        <td>Start.</td>
+        <td>End.</td>
+        <td>Duration.</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="task in OmpaTask.tasks">
+        <td><input type="checkbox" ng-click="OmpaTask.complete(task)"></td>
+        <td><button ng-click="OmpaTask.remove(task)">X</button></td>
+        <td>{{task.name}}</td>
+        <td>{{task.startTime}}</td>
+        <td>{{task.endTime}}</td>
+        <td>{{task.duration}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
